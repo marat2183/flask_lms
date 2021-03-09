@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+{% block head %}
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        {% block title %}
+        {% endblock %}
+    </title>
+    {% block styles %}
+    {% endblock %}
+</head>
+{% endblock %}
+<body>
+    {% block nav %}
+    <header>
+        <nav>
+            <ul class="navbar">
+                <div class="row navbar-wrap">
+                    <li><a class="navbar-item" href="#">Главная</a></li>
+                    <li><a class="navbar-item active-link" href="#">Список предметов</a></li>
+                    <li><a class="navbar-item" href="#">Первокурсникам</a></li>
+                    <li><a class="navbar-item" href="#">Расписание</a></li>
+                </div>
+            </ul>
+        </nav>
+    </header>
+    {% endblock %}
+	{% block content %}
+    {% endblock %}
+    {% block scripts %}
+    {% endblock %}
+</body>
+
+</html>

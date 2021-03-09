@@ -1,0 +1,125 @@
+{% extends 'courses/base.html' %}
+{% block title %}
+{{ course.name }}
+{% endblock %}
+{% block styles %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/courses/normalize.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/courses/LessonPage.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='fonts/fonts.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/courses/lessons.css') }}">
+{% endblock %}
+{% block content %}
+    <div class="header">
+        <div class="head_description">
+                <div class="psevdTop"></div>
+                <h1>
+                    {{ course.name }}
+                </h1>
+                <div class="psevdBot"></div>
+
+        </div>
+    </div>
+    <div class="AboutCourse">
+        <div class="LeftSide">
+            <div class="CourseDescription">
+                <h2 class="CourseTitle">Опиcание курса</h2>
+                <p class="CourseP">
+                    {{ course.description }}
+                </p>
+                <div class="Where">
+                    <div class="infoGroup">
+                        <span class="WhereElem">
+                            Лекции:
+                        </span>
+                        <span class="WhereElem">
+                            {{', '.join(course.lectures_auds)}}
+                        </span>
+                    </div>
+                    <div class="infoGroup">
+                        <span class="WhereElem">
+                            Практика:
+                        </span>
+                        <span class="WhereElem">
+                            {{', '.join(course.practice_auds)}}
+                        </span>
+                    </div>
+                    <div class="infoGroup">
+                        <span class="WhereElem">
+                            Лабораторные
+                        </span>
+                        <span class="WhereElem">
+                            Teams
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="CourseTeachers">
+                <h2 class="CourseTitle">
+                    Преподаватели
+                </h2>
+                {% block teachers %}
+                    {% for teacher in course.teachers %}
+                        <div class="teacher">
+                            <div class="teacherTitle">
+                                <img src="{{ url_for('static', filename='img/courses/LessonPage/link.svg') }}" alt="link">
+                                <h3 class="H3teacher">{{ teacher.fullname }}</h3>
+                            </div>
+                            <p class="CourseP">
+                                {{ teacher.description }}
+                            </p>
+                            <div class="contact">
+                                <div class="social">
+                                    <div class="eMail">
+                                        {{ teacher.email }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endblock %}
+            </div>
+            <div class="crossing">
+                <h2 class="CourseTitle">
+                    Пересечения
+                </h2>
+                <p class="CourseP">
+                    Знания, полученные в ходе прохождения этого
+                    курса, могут пригодится
+                    в следующих: физик, компьютерная графика, электрика.
+                </p>
+            </div>
+        </div>
+
+        <div class="RightSide">
+            {% block themes %}
+                {% for theme in course.themes %}
+                    <div class="ThemeContainer">
+                        <div class="SideBar">
+                            <img src="{{ url_for('static', filename='img/courses/LessonPage/arrow.svg') }}" alt="" class="arrow">
+                            <span class="TextOnLeft">
+                               Описание
+                            </span>
+                        </div>
+                        <div class="Theme">
+                            <h2>
+                                {{ theme.name }}
+                            </h2>
+                            <h3 class="Date">
+                                {{ theme.start_date }} - {{ theme.end_date }}
+                            </h3>
+                            <div class="HiddenInfo">
+                                <p class="themePar">
+                                    {{ theme.description }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endblock %}
+        </div>
+    </div>
+{% endblock %}
+{% block scripts %}
+    <script src="{{ url_for('static', filename='js/courses/LessonPage.js') }}"></script>
+{% endblock %}
