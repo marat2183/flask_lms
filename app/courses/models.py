@@ -1,18 +1,26 @@
 import mongoengine as db
+from flask_admin.form import DatePickerWidget
 
 
-class StudentUser(db.Document):
-    fullname = db.StringField()
-    group = db.StringField()
+class Group(db.Document):
+    name = db.StringField()
 
     def __unicode__(self):
-        return self.fullname
+        return self.name
+
+
+class Auditorium(db.Document):
+    name = db.StringField()
+
+    def __unicode__(self):
+        return self.name
 
 
 class TeacherUser(db.Document):
     fullname = db.StringField()
     description = db.StringField()
-    email = db.StringField()
+    email = db.EmailField()
+
     def __unicode__(self):
         return self.fullname
 
@@ -20,25 +28,39 @@ class TeacherUser(db.Document):
 class Theme(db.EmbeddedDocument):
     name = db.StringField()
     description = db.StringField()
-    start_date = db.StringField()
-    end_date = db.StringField()
+    start_date = db.DateTimeField()
+    end_date = db.DateTimeField()
+
 
     def __unicode__(self):
         return self.name
 
 
-class Coursetest(db.Document):
+
+class Course(db.Document):
     name = db.StringField()
     description = db.StringField()
-    groups = db.ListField(db.StringField())
-    lectures_auds = db.ListField(db.StringField())
-    practice_auds = db.ListField(db.StringField())
-    labs_auds = db.ListField(db.StringField())
+    lectures_auds = db.ListField(db.ReferenceField(Auditorium))
+    practice_auds = db.ListField(db.ReferenceField(Auditorium))
+    labs_auds = db.ListField(db.ReferenceField(Auditorium))
     teachers = db.ListField(db.ReferenceField(TeacherUser))
     themes = db.ListField(db.EmbeddedDocumentField(Theme))
 
     def __unicode__(self):
         return self.name
+
+
+class StudentUser(db.Document):
+    fullname = db.StringField()
+    group = db.ReferenceField(Group)
+    courses = db.ListField(db.ReferenceField(Course))
+
+    def __unicode__(self):
+        return self.fullname
+
+
+
+
 
 # first = TeacherUser(fullname='Иванов', description='Тест', email='asd@mail.ru')
 # first.save()
@@ -71,3 +93,4 @@ class Coursetest(db.Document):
 # a = Coursetest.objects()
 # for j in a:
 #     print(j.name)
+
