@@ -1,18 +1,15 @@
 from . import bp as auth
 from mongoengine import DoesNotExist, MultipleObjectsReturned
-from flask_login import login_user, logout_user, login_required, current_user
+from flask_login import login_user, logout_user, login_required
 from flask import (
     render_template,
-    current_app,
     request,
     session,
     url_for,
-    redirect,
-    make_response
+    redirect
 )
 from app import oauth
-from app.models import User, OAuth2Token
-from pprint import pprint
+from models import User, OAuth2Token
 
 
 @auth.route('/login', methods=['GET'])

@@ -1,0 +1,89 @@
+version: '3'
+services:
+  flask:
+    build: docker/flask
+    container_name: flask
+    image: digitalocean.com/flask-python:3.9
+    restart: unless-stopped
+    environment:
+      FLASK_ENV: "prod"
+      FLASK_DEBUG: "False"
+      FLASK_PORT: 5000
+      DB_NAME: flaskdb
+      DB_USERNAME: flaskuser
+      DB_PASSWORD: your_mongodb_password
+      DB_HOST: mongodb
+    env_file:
+      - .env
+    volumes:
+      - appdata:/var/www
+    depends_on:
+      - mongodb
+      - redis
+    networks:
+      - frontend
+      - backend
+
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    restart: unless-stopped
+    command: mongod --auth
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mongodbuser
+      MONGO_INITDB_ROOT_PASSWORD: security
+      MONGO_INITDB_DATABASE: flaskdb
+      MONGODB_DATA_DIR: /data/db
+      MONDODB_LOG_DIR: /dev/null
+    volumes:
+      - mongodbdata:/data/db
+    networks:
+      - backend
+
+  webserver:
+    build: docker/nginx
+    image: digitalocean.com/webserver:latest
+    container_name: nginx
+    restart: unless-stopped
+    environment:
+      APP_ENV: "prod"
+      APP_NAME: "webserver"
+      APP_DEBUG: "true"
+      SERVICE_NAME: "webserver"
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - nginxdata:/var/log/nginx
+    depends_on:
+      - flask
+    networks:
+      - frontend
+  redis:
+    image: redis:latest
+    container_name: redis
+    restart: always
+    volumes:
+      - redisdata:/data/redis
+    command: ["redis-server", "--appendonly", "yes"]
+    hostname: redis
+    ports:
+    - "6379:6379"
+    networks:
+      - backend
+
+networks:
+  frontend:
+    driver: bridge
+  backend:
+    driver: bridge
+
+volumes:
+  mongodbdata:
+    driver: local
+  redisdata:
+    driver: local
+  appdata:
+    driver: local
+  nginxdata:
+    driver: local

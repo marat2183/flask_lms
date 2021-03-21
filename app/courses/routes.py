@@ -1,6 +1,6 @@
-from app.courses import bp as courses_bp
-from flask import render_template, request, redirect, url_for, jsonify, current_app
-from flask_login import current_user, login_required
+from courses import bp as courses_bp
+from flask import render_template, request
+from flask_login import login_required
 from .services import *
 
 

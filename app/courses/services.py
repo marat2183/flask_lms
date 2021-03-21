@@ -1,5 +1,5 @@
 from bson.objectid import ObjectId
-from app.models import Course
+from models import Course
 
 
 def get_courses_by_id(id):
