@@ -1,10 +1,10 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Flask (wsgi.py:app)" type="Python.FlaskServer" nameIsGenerated="true">
+  <configuration default="false" name="Flask" type="Python.FlaskServer" nameIsGenerated="true">
     <option name="additionalOptions" value="--host=localhost --port=8081" />
     <option name="application" value="app" />
     <option name="flaskDebug" value="true" />
     <module name="flask_lms" />
-    <option name="target" value="$PROJECT_DIR$/wsgi.py" />
+    <option name="target" value="$PROJECT_DIR$/app/wsgi.py" />
     <option name="targetType" value="PATH" />
     <option name="INTERPRETER_OPTIONS" value="" />
     <option name="PARENT_ENVS" value="true" />
