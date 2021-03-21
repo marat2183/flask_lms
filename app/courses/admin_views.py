@@ -1,6 +1,4 @@
-from flask_admin.contrib.mongoengine import ModelView, EmbeddedForm
-from .models import *
-from bson import ObjectId
+from flask_admin.contrib.mongoengine import ModelView
 
 
 class TeacherView(ModelView):

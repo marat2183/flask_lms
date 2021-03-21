@@ -1,0 +1,23 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Flask (app:app)" type="Python.FlaskServer" nameIsGenerated="true">
+    <option name="additionalOptions" value="--host=localhost --port=8081" />
+    <option name="application" value="app" />
+    <option name="flaskDebug" value="true" />
+    <module name="flask_lms" />
+    <option name="target" value="app" />
+    <option name="targetType" value="PYTHON" />
+    <option name="INTERPRETER_OPTIONS" value="" />
+    <option name="PARENT_ENVS" value="true" />
+    <envs>
+      <env name="FLASK_APP" value="run.py" />
+    </envs>
+    <option name="SDK_HOME" value="C:\Users\ryabu\Documents\flask_lms\venv\Scripts\python.exe" />
+    <option name="WORKING_DIRECTORY" value="" />
+    <option name="IS_MODULE_SDK" value="false" />
+    <option name="ADD_CONTENT_ROOTS" value="true" />
+    <option name="ADD_SOURCE_ROOTS" value="true" />
+    <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+    <option name="launchJavascriptDebuger" value="false" />
+    <method v="2" />
+  </configuration>
+</component>

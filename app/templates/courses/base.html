@@ -15,18 +15,23 @@
 {% endblock %}
 <body>
     {% block nav %}
-    <header>
-        <nav>
-            <ul class="navbar">
-                <div class="row navbar-wrap">
-                    <li><a class="navbar-item" href="#">Главная</a></li>
-                    <li><a class="navbar-item active-link" href="#">Список предметов</a></li>
-                    <li><a class="navbar-item" href="#">Первокурсникам</a></li>
-                    <li><a class="navbar-item" href="#">Расписание</a></li>
-                </div>
-            </ul>
-        </nav>
-    </header>
+        <header>
+            <nav>
+                <ul class="navbar">
+                    <div class="row navbar-wrap">
+                        <li><a class="navbar-item" href="#">Главная</a></li>
+                        <li><a class="navbar-item active-link" href="#">Список предметов</a></li>
+                        <li><a class="navbar-item" href="#">Первокурсникам</a></li>
+                        <li><a class="navbar-item" href="#">Расписание</a></li>
+                        <li>
+                            <a class="navbar-item username" href="#">
+                                {{ current_user.fullname }}
+                            </a>
+                        </li>
+                    </div>
+                </ul>
+            </nav>
+        </header>
     {% endblock %}
 	{% block content %}
     {% endblock %}
