@@ -1,2 +1,3 @@
-#!/bin/sh
-gunicorn -w 3 --bind 0.0.0.0:5000 wsgi:app
+#!/bin/bash
+source venv/bin/activate
+exec gunicorn -w 3 -b :5000 --access-logfile - --error-logfile - wsgi:app

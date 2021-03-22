@@ -1,5 +1,5 @@
 from . import bp as auth
-from mongoengine import DoesNotExist, MultipleObjectsReturned
+from mongoengine import DoesNotExist, MultipleObjectsReturned, CASCADE, DO_NOTHING
 from flask_login import login_user, logout_user, login_required
 from flask import (
     render_template,
@@ -9,7 +9,7 @@ from flask import (
     redirect
 )
 from app import oauth
-from models import User, OAuth2Token
+from app.models import User, OAuth2Token, Course, TeacherUser
 
 
 @auth.route('/login', methods=['GET'])

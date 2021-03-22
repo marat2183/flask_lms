@@ -1,8 +1,8 @@
 from bson.objectid import ObjectId
-from models import Course
+from app.models import Course
 
 
-def get_courses_by_id(id):
+def get_courses_by_id(id) -> Course:
     courses = Course.objects().aggregate(
     [
         {

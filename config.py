@@ -1,14 +1,16 @@
 import os
+import redis
+
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 
 class Config(object):
-    SECRET_KEY = os.environ.get('SECRET_KEY')
+    SECRET_KEY = os.environ.get('SECRET_KEY') or os.urandom(24)
 
     DB_NAME = os.environ.get('DB_NAME')
     DB_USERNAME = os.environ.get('DB_USERNAME')
     DB_PASSWORD = os.environ.get('DB_PASSWORD')
-    DB_HOST = os.environ.get('DB_HOST')
+    DB_HOST = os.environ.get('DB_HOST', '127.0.0.1')
     DB_PORT = os.environ.get('DB_PORT', 27017)
 
     MONGODB_SETTINGS = {
@@ -23,6 +25,13 @@ class Config(object):
     REDIS_PORT = os.environ.get('REDIS_PORT') or 6379
     REDIS_USER = os.environ.get('REDIS_USER')
     REDIS_PASSWORD = os.environ.get('REDIS_PASSWORD')
+
+    SESSION_REDIS = redis.Redis(
+        REDIS_HOST,
+        REDIS_PORT,
+        username=REDIS_USER,
+        password=REDIS_PASSWORD
+    )
 
     SESSION_TYPE = os.environ.get('SESSION_TYPE', 'filesystem')
     SESSION_PERMANENT = os.environ.get('SESSION_PERMANENT', False)
