@@ -1,0 +1,11 @@
+# user and db used by the application
+MONGO_USERNAME="<your-value>"
+MONGO_PASSWORD="<your-value>"
+MONGO_DB="<your-value>"
+# username and password for root user
+# (authentication database is INITDB_DATABASE)
+MONGO_INITDB_ROOT_USERNAME="<your-value>"
+MONGO_INITDB_ROOT_PASSWORD="<your-value>"
+MONGO_INITDB_DATABASE="<your-value>"
+# optional
+MONGO_PORT=27017
