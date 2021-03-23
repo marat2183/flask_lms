@@ -1,26 +1,15 @@
 version: '3.7'
 services:
   flask:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    build: .
     container_name: flask
     restart: unless-stopped
+    env_file: .env
     environment:
       FLASK_ENV: "production"
       FLASK_DEBUG: "False"
       FLASK_PORT: 5000
-      DB_HOST: mongo
-      DB_PORT: 27017
-      DB_USERNAME: dbuser
-      DB_PASSWORD: password
-      DB_NAME: app
-      REDIS_HOST: redis
-      REDIS_PORT: 6379
-    env_file:
-      - .env
-    volumes:
-      - appdata:/home/worker
+      FLASK_CONFIG: "${FLASK_CONFIG:-docker}"
     depends_on:
       - redis
       - mongo
@@ -31,9 +20,9 @@ services:
   mongo:
     image: mongo:latest
     restart: unless-stopped
-    command: ["--auth"]
-    env_file:
-      - .env.dev
+    container_name: mongo
+    command: --auth
+    env_file: .env
     volumes:
       - ./docker/mongo/init-mongo.sh:/docker-entrypoint-initdb.d/init-mongo.sh
       - mongodata:/data/db
@@ -43,7 +32,7 @@ services:
       - backend
 
   webserver:
-    build: nginx
+    build: docker/nginx
     container_name: nginx
     restart: unless-stopped
     environment:

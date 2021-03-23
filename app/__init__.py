@@ -1,4 +1,5 @@
 from flask import Flask
+from config import config
 import flask_admin as admin
 from flask_babelex import Babel
 from flask_session import Session
@@ -26,9 +27,12 @@ db = MongoEngine()
 admin = admin.Admin(name='Flask_lms', template_mode='bootstrap4')
 
 
-def create_app():
+def create_app(config_name: str):
     app = Flask(__name__, instance_relative_config=True)
-    app.config.from_object('config.Config')
+    app.config.from_object(
+        config[config_name]
+    )
+    config[config_name].init_app(app)
 
     sess.init_app(app)
     babel.init_app(app)

@@ -6,7 +6,8 @@ from flask import (
     request,
     session,
     url_for,
-    redirect
+    redirect,
+    current_app
 )
 from app import oauth
 from app.models import User, OAuth2Token, Course, TeacherUser
