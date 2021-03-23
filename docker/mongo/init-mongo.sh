@@ -6,7 +6,13 @@ mongo -- "$MONGO_DB" <<EOF
     var admin = db.getSiblingDB('admin');
     admin.auth(rootUser, rootPassword);
 
-    var user = '$MONGO_USER';
+    var user = '$MONGO_USERNAME';
     var passwd = '${MONGO_PASSWORD-}' || user;
     db.createUser({user: user, pwd: passwd, roles: ["readWrite"]});
 EOF
+
+if [ $? -eq 0 ]; then
+    echo "User $MONGO_USERNAME with password $MONGO_PASSWORD added to $MONGO_DB"
+else
+    echo '[ERROR] Failed adding user to database, aborting..' 1>&2
+fi
