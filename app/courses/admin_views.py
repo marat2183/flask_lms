@@ -1,4 +1,7 @@
-from flask_admin.contrib.mongoengine import ModelView
+from flask_admin.contrib.mongoengine import ModelView, EmbeddedForm
+from .models import *
+from bson import ObjectId
+
 
 class TeacherView(ModelView):
     column_list = ['fullname', 'description', 'email']
@@ -38,6 +41,31 @@ class StudentView(ModelView):
             'label': 'Курсы',
         }
     }
+
+
+# class ThemeEmbed(EmbeddedForm):
+#     form_columns = ('name', 'description', 'start_date', 'end_date')
+    # form_labels = {
+    #     'name': 'Название',
+    #     'description': 'Описание',
+    #     'start_date': 'Начало',
+    #     'end_date': 'Конец'
+    # }
+    # form_args  = {
+    #     'name': {
+    #         'label': 'Название'
+    #     },
+    #     'description': {
+    #         'label': 'Описание'
+    #     },
+    #     'start_date': {
+    #         'label': 'Начало'
+    #     },
+    #     'end_date': {
+    #         'label': 'Конец'
+    #     }
+    # }
+
 
 
 class CourseView(ModelView):
