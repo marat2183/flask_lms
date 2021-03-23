@@ -4,7 +4,9 @@ services:
     build: .
     container_name: flask
     restart: unless-stopped
-    env_file: .env
+    env_file:
+      - .env
+      - .mongo.env
     environment:
       FLASK_ENV: "production"
       FLASK_DEBUG: "False"
@@ -21,13 +23,14 @@ services:
     image: mongo:latest
     restart: unless-stopped
     container_name: mongo
-    command: --auth
-    env_file: .env
+    env_file: .mongo.env
     volumes:
       - ./docker/mongo/init-mongo.sh:/docker-entrypoint-initdb.d/init-mongo.sh
+      # - ./docker/mongo/init-db.js:/docker-entrypoint-initdb.d/init-db.js
       - mongodata:/data/db
+      - mongoconfig:/data/configdb
     ports:
-    - '27017-27019:27017-27019'
+    - "27017:27017"
     networks:
       - backend
 
@@ -73,6 +76,8 @@ volumes:
   redisdata:
     driver: local
   mongodata:
+    driver: local
+  mongoconfig:
     driver: local
   appdata:
     driver: local
