@@ -17,9 +17,12 @@
                     <h1 class="purple-text sign-in-header">Авторизация</h1>
                     <a class="home-link" href="">На главную</a>
                 </div>
-                <form class="auth-group" action="{{ url_for('auth.oidc') }}">
+                <form class="auth-group" action="">
                     <div class="form-group">
                         <input id="email-input" type="email" class="auth-input" placeholder="Почта @sfedu">
+                    </div>
+                    <div class="form-group">
+                        <input id="password-input" type="password" class="auth-input" placeholder="Пароль">
                     </div>
                     <div class="form-group">
                         <select id="projects-select" class="auth-select" size=1>
