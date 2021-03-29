@@ -1,10 +1,11 @@
-from app.courses import bp as courses_bp
-from flask import render_template
-from flask import request
+from . import bp as courses_bp
+from flask import render_template, request, session
+from flask_login import login_required, current_user
 from .services import *
 
 
 @courses_bp.route('/', methods=['GET', 'POST'])
+@login_required
 def index():
     if request.method == "POST":
         return render_template(template_name_or_list='courses/courses.html')

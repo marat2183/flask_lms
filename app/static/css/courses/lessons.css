@@ -45,6 +45,12 @@ nav {
     color: #B111EA
 }
 
+.navbar-item .username {
+    text-transform: none;
+    margin-left: 70px;
+    text-underline: #B111EA;
+}
+
 
 header {
     /*background: url(../../img/courses/lessons/Body.png) bottom center no-repeat;*/

@@ -1,0 +1,12 @@
+.user_info:hover{
+    background-color: blue;
+}
+.user_role:hover{
+    background-color: inherit;
+}
+.dropdown-item:active{
+    background-color: #B111EA;
+}
+.nav_tabs .nav-item{
+    color: #B111EA;
+}

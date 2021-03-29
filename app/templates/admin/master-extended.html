@@ -1,0 +1,22 @@
+{% extends 'admin/base.html' %}
+{% block head_css %}
+  {{ super() }}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/admin/test.css') }}">
+{% endblock %}
+{% block access_control %}
+
+{% if current_user.is_authenticated %}
+<div class="pull-right">
+    <ul class="nav pull-right">
+        <li class="nav-item dropdown">
+                <a href="#" class="nav-link dropdown-toggle text-white bg-dark user_info" data-toggle="dropdown">{{ current_user.fullname }}</a>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <span class="dropdown-item user_role">{{ current_user.role }}</span>
+                    <div class="dropdown-divider"></div>
+                    <a href="/auth/logout"class="dropdown-item">Выход</a>
+                </div>
+        </li>
+    </ul>
+</div>
+{% endif %}
+{% endblock %}

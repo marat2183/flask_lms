@@ -1,0 +1,267 @@
+from flask_admin.contrib.mongoengine import ModelView, EmbeddedForm
+from flask_admin import AdminIndexView, expose
+from flask_login import current_user
+from flask import url_for, redirect, request, render_template
+from flask_admin.contrib.mongoengine.ajax import QueryAjaxModelLoader, DEFAULT_PAGE_SIZE
+from app.models import User, Course
+from bson import ObjectId
+from flask_admin.form import rules
+
+
+class FilteredByRoleAjaxModelLoader(QueryAjaxModelLoader):
+    def get_list(self, term, offset=0, limit=DEFAULT_PAGE_SIZE):
+        role = self.filter_by_role
+        return (
+            self.model.objects(role=role)
+        )
+
+    def __init__(self, name, model, **options):
+        super(FilteredByRoleAjaxModelLoader, self).__init__(name, model, **options)
+        self.filter_by_role = options.get('filter_by_role')
+
+
+class MyModelAdminView(ModelView):
+    def is_accessible(self):
+        if current_user.is_authenticated and current_user.role == 'Администратор':
+            return True
+        return False
+
+    def inaccessible_callback(self, name, **kwargs):
+        if current_user.is_authenticated:
+            return redirect(url_for('courses.index'))
+        return redirect(url_for('auth.index'))
+
+
+class MyModelTeacherView(ModelView):
+    def is_accessible(self):
+        if current_user.is_authenticated and current_user.role == 'Преподаватель':
+            return True
+        return False
+
+    def inaccessible_callback(self, name, **kwargs):
+        if current_user.is_authenticated:
+            return redirect(url_for('courses.index'))
+        return redirect(url_for('auth.index'))
+
+
+class MyModelAdminTeacherView(ModelView):
+    def is_accessible(self):
+        if current_user.is_authenticated and (
+                current_user.role == 'Администратор' or current_user.role == 'Преподаватель'):
+            return True
+        return False
+
+    def inaccessible_callback(self, name, **kwargs):
+        if current_user.is_authenticated:
+            return redirect(url_for('courses.index'))
+        return redirect(url_for('auth.index'))
+
+    @property
+    def can_create(self):
+        return current_user.role == 'Администратор'
+
+    @property
+    def can_edit(self):
+        return current_user.role == 'Администратор' or current_user.role == 'Преподаватель'
+
+    @property
+    def can_delete(self):
+        return current_user.role == 'Администратор'
+
+
+class MyAdminIndexView(AdminIndexView):
+    def is_accessible(self):
+        if current_user.is_authenticated and (current_user.role == 'Администратор' or current_user.role == 'Преподаватель'):
+            return True
+        return False
+
+    def inaccessible_callback(self, name, **kwargs):
+        if current_user.is_authenticated:
+            return redirect(url_for('courses.index'))
+        return redirect(url_for('auth.index'))
+
+    @expose('/')
+    def index(self):
+        return self.render(template='admin/master-extended.html')
+
+
+class TeacherView(MyModelAdminView):
+    column_list = ['fullname', 'description', 'email']
+    column_labels = {
+        'fullname': 'ФИО',
+        'description': 'Описание',
+        'email': 'Электронная почта'
+    }
+    form_args = {
+        'fullname': {
+            'label': 'ФИО',
+        },
+        'description': {
+            'label': 'Описание',
+        },
+        'email': {
+            'label': 'Почта',
+        }
+    }
+
+
+class StudentView(MyModelAdminView):
+    form_excluded_columns = ['azure_oid', 'token', 'active']
+    column_list = ['fullname', 'group', 'courses', 'role']
+    column_labels = {
+        'fullname': 'ФИО',
+        'group': 'Группа',
+        'courses': 'Курсы',
+        'role': 'Роль'
+    }
+    form_args = {
+        'fullname': {
+            'label': 'ФИО',
+        },
+        'group': {
+            'label': 'Группа',
+        },
+        'courses': {
+            'label': 'Курсы',
+        },
+        'role': {
+            'label': 'Роль',
+        }
+    }
+
+
+class CourseView(MyModelAdminTeacherView):
+    column_list = ['name', 'description', 'lectures_auds', 'practice_auds', 'labs_auds', 'teachers', 'themes']
+    column_labels = {
+        'name': 'Название',
+        'description': 'Описание',
+        'lectures_auds': 'Аудитории для лекций',
+        'practice_auds': 'Аудитории для практических работ',
+        'labs_auds': 'Аудитории для лабораторных работ',
+        'teachers': 'Преподаватели',
+        'themes': 'Темы'
+    }
+    form_args = {
+        'name': {
+            'label': 'Название',
+            'render_kw': {
+                'placeholder': 'Введите название курса'
+            }
+        },
+        'description': {
+            'label': 'Описание',
+            'render_kw': {
+                'placeholder': 'Введите описание курса'
+            }
+        },
+        'lectures_auds': {
+            'label': 'Aудитории для лекций'
+        },
+        'practice_auds': {
+            'label': 'Aудитории для практический занятий'
+        },
+        'labs_auds': {
+            'label': 'Aудитории для лабораторных занятий'
+        },
+        'teachers': {
+            'label': 'Преподаватели'
+        },
+        'themes': {
+            'label': 'Темы'
+        },
+        'students': {
+            'label': 'Участники'
+        }
+
+    }
+
+    form_ajax_refs = {
+        'teachers': FilteredByRoleAjaxModelLoader
+            (
+                name='teachers',
+                model=User,
+                fields=['fullname', 'role', 'id'],
+                filter_by_role='Преподаватель',
+                minimum_input_length=0,
+                placeholder='Пожалуйста, выберите преподавателей',
+            ),
+        'students': FilteredByRoleAjaxModelLoader
+            (
+                name='students',
+                model=User,
+                fields=['fullname', 'role', 'id'],
+                filter_by_role='Студент',
+                minimum_input_length=0,
+                placeholder='Пожалуйста, выберите студентов'
+            ),
+        'labs_auds': {
+                'fields': ('name',),
+                'placeholder': 'Пожалуйста, выберите аудитории',
+                'minimum_input_length': 0,
+        },
+
+        'lectures_auds': {
+            'fields': ('name',),
+            'placeholder': 'Пожалуйста, выберите аудитории',
+            'minimum_input_length': 0,
+        },
+        'practice_auds': {
+            'fields': ('name',),
+            'placeholder': 'Пожалуйста, выберите аудитории',
+            'minimum_input_length': 0,
+        }
+    }
+
+    form_subdocuments = {
+        'themes': {
+            'form_subdocuments': {
+                None: {
+                    'form_columns': ('name', 'description', 'start_date', 'end_date'),
+                    'form_args': {
+                        'name': {
+                            'label': 'Название'
+                        },
+                        'description': {
+                            'label': 'Описание'
+                        },
+                        'start_date': {
+                            'label': 'Начало'
+                        },
+                        'end_date': {
+                            'label': 'Конец'
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    def get_query(self):
+        if current_user.role == "Преподаватель":
+            courses = Course.objects(teachers=ObjectId(current_user.id))
+        else:
+            courses = Course.objects()
+        return courses
+
+    def get_count_query(self):
+        return self.get_query().count()
+
+
+class GroupView(MyModelAdminView):
+    column_list = ['name']
+    column_labels = {
+        'name': 'Название'
+    }
+    form_args = {
+        'name': {
+            'label': 'Название',
+        },
+
+    }
+
+
+class AuditoriumView(GroupView):
+    pass
+
+
+

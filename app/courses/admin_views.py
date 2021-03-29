@@ -154,3 +154,5 @@ class AuditoriumView(GroupView):
 
 
 
+
+

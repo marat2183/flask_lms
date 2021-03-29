@@ -61,7 +61,6 @@ class StudentUser(db.Document):
 
 
 
-
 # first = TeacherUser(fullname='Иванов', description='Тест', email='asd@mail.ru')
 # first.save()
 # second = TeacherUser(fullname='Петров', description='Тест', email='asd@mail.ru')
