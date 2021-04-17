@@ -1,6 +1,9 @@
 import mongoengine as db
 from flask_login import UserMixin
+from flask import url_for
+from jinja2 import Markup
 from flask_admin.form import DatePickerWidget
+from flask_admin.form.widgets import DatePickerWidget
 
 
 def fetch_azure_token(request):
@@ -36,15 +39,6 @@ class Auditorium(db.Document):
         return self.name
 
 
-class TeacherUser(UserMixin, db.Document):
-    fullname = db.StringField()
-    description = db.StringField()
-    email = db.EmailField()
-
-    def __unicode__(self):
-        return self.fullname
-
-
 class Theme(db.EmbeddedDocument):
     name = db.StringField()
     description = db.StringField()
@@ -53,20 +47,6 @@ class Theme(db.EmbeddedDocument):
 
     def __unicode__(self):
         return self.name
-
-
-# class Course(db.Document):
-#     name = db.StringField()
-#     description = db.StringField()
-#     lectures_auds = db.ListField(db.ReferenceField(Auditorium))
-#     practice_auds = db.ListField(db.ReferenceField(Auditorium))
-#     labs_auds = db.ListField(db.ReferenceField(Auditorium))
-#     teachers = db.ListField(db.ReferenceField(TeacherUser))
-#     themes = db.ListField(db.EmbeddedDocumentField(Theme))
-#
-#     def __unicode__(self):
-#         return self.name
-
 
 
 class OAuth2Token(db.EmbeddedDocument):

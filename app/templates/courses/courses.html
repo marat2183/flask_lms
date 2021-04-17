@@ -3,92 +3,58 @@
 Курсы
 {% endblock %}
 {% block styles %}
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/courses/normalize.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/courses/lessons.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/courses/menu.css') }}">
 {% endblock %}
 {% block content %}
-    <div class="containter">
         <div class="header-text row">
-                <div class="column">
-                    <h1 class="title">СПИСОК ПРЕДМЕТОВ</h1>
-                    <div class="descryption">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste, voluptatum doloremque quaerat
-                        adipisci
-                        fugiat
-                        nam
-                        possimus corrupti, labore aspernatur ab, ut cupiditate. Laudantium sint eligendi rerum qui veritatis
-                        ea
-                        error!
-                    </div>
+            <div class="column">
+                <h1 class="title">СПИСОК ПРЕДМЕТОВ</h1>
+                <div class="descryption">
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste, voluptatum doloremque quaerat
+                    adipisci
+                    fugiat
+                    nam
+                    possimus corrupti, labore aspernatur ab, ut cupiditate. Laudantium sint eligendi rerum qui veritatis
+                    ea
+                    error!
                 </div>
+            </div>
         </div>
-        <div class="main row">
-            <div class="main-wrap column">
-                <ul class="tabs row">
+    </header>
+    <div class="main row">
+        <div class="main-wrap column">
+            <ul class="tabs row">
+                <a class="course_link" href="{{ url_for('courses.user_courses') }}">
                     <li class="tab left-tab active-tab">
                         <div class="row tab-wrap">
-                        <img src="{{ url_for('static', filename='img/courses/lessons/icons/check-list.svg') }}" alt=""> Выбранные предметы
+                            <img src="{{ url_for('static', filename='img/courses/lessons/icons/check-list.svg') }}" alt=""> Выбранные предметы
                         </div>
                     </li>
+                </a>
+                <a class="course_link" href="{{ url_for('courses.index') }}">
                     <li class="tab right-tab">
                         <div class="row tab-wrap">
-                        <img src="{{ url_for('static', filename='img/courses/lessons/icons/check-list.svg') }}" alt=""> Выбор предметов
+                            <img src="{{ url_for('static', filename='img/courses/lessons/icons/list.svg') }}" alt=""> Выбор предметов
                         </div>
                     </li>
-                </ul>
-                <div class="subj-list">
-                    <div class="subj-table row">
-                        <div class="left-block column subj">
-                            <div class="left-block-wrap ">
-                                <div class="icon"><img src="{{ url_for('static', filename='img/courses/lessons/icons/prog.svg') }}" alt=""></div>
-                                <div class="subj-title">Программирование</div>
-                                <div class="subj-descryption">
-                                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Odio natus odit, optio qui
-                                    quisquam
+                </a>
+            </ul>
+            <div class="subjects">
+                {% block courses %}
+                    {% for course in courses %}
+                        <div class="subj">
+                            <img src="{{ url_for('static', filename='img/courses/lessons/icons/math.svg') }}" alt="" class="subj-icon">
+                            <div class="subj-text column">
+                                <a class="course_link" href="{{ url_for('courses.index', id=course.id) }}">
+                                    <div class="subj-title">{{ course.name }}</div>
+                                </a>
+                                <div class="subj-descryption">{{ course.description }}
                                 </div>
                             </div>
                         </div>
-                        <div class="right-block column">
-                            <div class="right-top-block  subj">
-                                <div class="right-top-block-wrap row">
-                                    <div class="icon"><img src="{{ url_for('static', filename='img/courses/lessons/icons/math.svg') }}" alt=""></div>
-                                    <div class="column">
-                                        <div class="subj-title">Математика</div>
-                                        <div class="subj-descryption">
-                                            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Odio natus odit, optio
-                                            qui
-                                            quisquam
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="right-bottom-block  subj">
-                                <div class="right-bottom-block-wrap row">
-                                    <div class="icon"><img src="{{ url_for('static', filename='img/courses/lessons/icons/tech.svg') }}" alt=""></div>
-                                    <div class="column">
-                                        <div class="subj-title">ЭлТех</div>
-                                    <div class="subj-descryption">
-                                        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Odio natus odit, optio qui
-                                        quisquam
-                                    </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="horizontal-subj-block column subj">
-                        <div class="horizontal-subj-block-wrap row">
-                            <div class="icon"><img src="{{ url_for('static', filename='img/courses/lessons/icons/marketing.svg') }}" alt=""></div>
-                            <div class="column">
-                                <div class="subj-title">Интернет маркетинг</div>
-                            <div class="subj-descryption">
-                                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Odio natus odit, optio qui
-                                quisquam
-                            </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                    {% endfor %}
+                {% endblock %}
             </div>
         </div>
     </div>

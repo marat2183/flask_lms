@@ -1,8 +1,25 @@
-.user_info:hover{
-    background-color: blue;
+.bg-dark{
+    background-color: #593196 !important;
+}
+a.bg-dark:hover{
+    background-color: #593196 !important;
+}
+a.bg-dark:focus{
+    background-color: #593196 !important;
+}
+.select2-results .select2-highlighted {
+    color: #fff !important;
+    background-color: #593196 !important;
+}
+.calendar-time{
+    display: none;
+}
+.inline-field{
+    margin-bottom: 10px;
 }
 .user_role:hover{
     background-color: inherit;
+    color: #444;
 }
 .dropdown-item:active{
     background-color: #B111EA;

@@ -10,7 +10,7 @@ from flask import (
     current_app
 )
 from app import oauth
-from app.models import User, OAuth2Token, Course, TeacherUser
+from app.models import User, OAuth2Token, Course
 
 
 @auth.route('/login', methods=['GET'])

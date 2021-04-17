@@ -78,7 +78,7 @@ class MyAdminIndexView(AdminIndexView):
     def inaccessible_callback(self, name, **kwargs):
         if current_user.is_authenticated:
             return redirect(url_for('courses.index'))
-        return redirect(url_for('auth.index'))
+        return redirect(url_for('auth.index', next=request.url))
 
     @expose('/')
     def index(self):
@@ -225,10 +225,22 @@ class CourseView(MyModelAdminTeacherView):
                             'label': 'Описание'
                         },
                         'start_date': {
-                            'label': 'Начало'
+                            'label': 'Начало',
+                            'format': '%d.%m.%Y',
                         },
                         'end_date': {
-                            'label': 'Конец'
+                            'label': 'Конец',
+                            'format': '%d.%m.%Y',
+                        }
+                    },
+                    'form_widget_args':{
+                        'start_date': {
+                            'data-date-format': u'DD.MM.YYYY',
+                            'data-show-meridian': 'True'
+                        },
+                        'end_date': {
+                            'data-date-format': u'DD.MM.YYYY',
+                            'data-show-meridian': 'True'
                         }
                     }
                 }

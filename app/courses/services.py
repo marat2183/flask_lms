@@ -12,10 +12,34 @@ def get_courses_by_id(id) -> Course:
         },
         {
             '$lookup': {
-                'from': 'teachers',
+                'from': 'user',
                 'localField': 'teachers',
                 'foreignField': '_id',
                 'as': 'teachers'
+            }
+        },
+        {
+            '$lookup': {
+                'from': 'auditorium',
+                'localField': 'labs_auds',
+                'foreignField': '_id',
+                'as': 'labs_auds'
+            }
+        },
+        {
+            '$lookup': {
+                'from': 'auditorium',
+                'localField': 'lectures_auds',
+                'foreignField': '_id',
+                'as': 'lectures_auds'
+            }
+        },
+        {
+            '$lookup': {
+                'from': 'auditorium',
+                'localField': 'practice_auds',
+                'foreignField': '_id',
+                'as': 'practice_auds'
             }
         }
     ]
@@ -23,9 +47,13 @@ def get_courses_by_id(id) -> Course:
     return list(courses)[0]
 
 
-def get_courses_by_group(group):
-    courses = Course.objects(groups=group)
-    # courses = Course.objects.find({'groups': group}, {'name': 1, 'description': 1})
+def get_courses_able_to_join(id):
+    courses = Course.objects(students__nin=[id])
+    return list(courses)
+
+
+def get_user_courses(id):
+    courses = Course.objects(students__in=[id])
     return list(courses)
 
 

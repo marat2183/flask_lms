@@ -3,12 +3,15 @@
 {{ course.name }}
 {% endblock %}
 {% block styles %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/courses/menu.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/courses/normalize.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/courses/LessonPage.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='fonts/fonts.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/courses/lessons.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/courses/LessonPage.css') }}">
+
+{#    <link rel="stylesheet" href="{{ url_for('static', filename='css/courses/lessons.css') }}">#}
 {% endblock %}
 {% block content %}
+    </header>
     <div class="header">
         <div class="head_description">
                 <div class="psevdTop"></div>
@@ -32,7 +35,7 @@
                             Лекции:
                         </span>
                         <span class="WhereElem">
-                            {{', '.join(course.lectures_auds)}}
+                            {{', '.join(course.lectures_auds | map(attribute='name') | list)}}
                         </span>
                     </div>
                     <div class="infoGroup">
@@ -40,7 +43,7 @@
                             Практика:
                         </span>
                         <span class="WhereElem">
-                            {{', '.join(course.practice_auds)}}
+                            {{', '.join(course.practice_auds | map(attribute='name') | list)}}
                         </span>
                     </div>
                     <div class="infoGroup">
@@ -48,7 +51,7 @@
                             Лабораторные
                         </span>
                         <span class="WhereElem">
-                            Teams
+                            {{', '.join(course.labs_auds | map(attribute='name') | list)}}
                         </span>
                     </div>
                 </div>
@@ -66,7 +69,7 @@
                                 <h3 class="H3teacher">{{ teacher.fullname }}</h3>
                             </div>
                             <p class="CourseP">
-                                {{ teacher.description }}
+                                {{ teacher.role }}
                             </p>
                             <div class="contact">
                                 <div class="social">
@@ -106,7 +109,7 @@
                                 {{ theme.name }}
                             </h2>
                             <h3 class="Date">
-                                {{ theme.start_date }} - {{ theme.end_date }}
+                                {{ theme.start_date.strftime('%d.%m.%Y') }} - {{ theme.end_date.strftime('%d.%m.%Y') }}
                             </h3>
                             <div class="HiddenInfo">
                                 <p class="themePar">

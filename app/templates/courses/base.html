@@ -10,6 +10,7 @@
         {% endblock %}
     </title>
     {% block styles %}
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/courses/menu.css') }}">
     {% endblock %}
 </head>
 {% endblock %}
@@ -21,8 +22,7 @@
                     <div class="row navbar-wrap">
                         <li><a class="navbar-item" href="#">Главная</a></li>
                         <li><a class="navbar-item active-link" href="#">Список предметов</a></li>
-                        <li><a class="navbar-item" href="#">Первокурсникам</a></li>
-                        <li><a class="navbar-item" href="#">Расписание</a></li>
+                        <li><a class="navbar-item" href="#">Запись на проекты</a></li>
                         <li>
                             <a class="navbar-item username" href="#">
                                 {{ current_user.fullname }}
@@ -31,7 +31,6 @@
                     </div>
                 </ul>
             </nav>
-        </header>
     {% endblock %}
 	{% block content %}
     {% endblock %}

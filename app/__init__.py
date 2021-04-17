@@ -6,7 +6,8 @@ from flask_session import Session
 from flask_login import LoginManager
 from authlib.integrations.flask_client import OAuth
 from flask_mongoengine import MongoEngine
-from .models import TeacherUser, Course, Group, Auditorium, User
+from flask_admin.contrib.mongoengine import ModelView
+from .models import Course, Group, Auditorium, User
 from .models import fetch_azure_token, update_azure_token, load_user
 from .admin_views import TeacherView, StudentView, CourseView, AuditoriumView, GroupView, MyAdminIndexView
 
@@ -62,12 +63,10 @@ def create_app(config_name: str):
         update_token=update_azure_token
     )
 
-    admin.add_view(TeacherView(TeacherUser, name='Учителя'))
     admin.add_view(StudentView(User, name='Студенты'))
     admin.add_view(CourseView(Course, name='Курсы'))
     admin.add_view((GroupView(Group, name='Группы')))
     admin.add_view(AuditoriumView(Auditorium, name='Аудитории'))
-
     from .auth import bp as auth_bp
     from .courses import bp as courses_bp
     from .main import bp as main_bp

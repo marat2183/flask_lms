@@ -6,7 +6,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 class Config(object):
     SECRET_KEY = os.environ.get('SECRET_KEY') or os.urandom(24)
-
+    FLASK_ADMIN_SWATCH = 'pulse'
     MONGO_DB = os.environ.get('MONGO_DB')
     MONGO_USERNAME = os.environ.get('MONGO_USERNAME')
     MONGO_PASSWORD = os.environ.get('MONGO_PASSWORD')
