@@ -3,9 +3,25 @@ from flask_admin import AdminIndexView, expose
 from flask_login import current_user
 from flask import url_for, redirect, request, render_template
 from flask_admin.contrib.mongoengine.ajax import QueryAjaxModelLoader, DEFAULT_PAGE_SIZE
+from wtforms.widgets import TextArea
+from wtforms import TextAreaField
+
 from app.models import User, Course
 from bson import ObjectId
 from flask_admin.form import rules
+
+
+class CKEditorWidget(TextArea):
+    def __call__(self, field, **kwargs):
+        if kwargs.get('class'):
+            kwargs['class'] += " ckeditor"
+        else:
+            kwargs.setdefault('class', 'ckeditor')
+        return super(CKEditorWidget, self).__call__(field, **kwargs)
+
+
+class CKEditorField(TextAreaField):
+    widget = CKEditorWidget()
 
 
 class FilteredByRoleAjaxModelLoader(QueryAjaxModelLoader):
@@ -78,7 +94,7 @@ class MyAdminIndexView(AdminIndexView):
     def inaccessible_callback(self, name, **kwargs):
         if current_user.is_authenticated:
             return redirect(url_for('courses.index'))
-        return redirect(url_for('auth.index', next=request.url))
+        return redirect(url_for('auth.index'))
 
     @expose('/')
     def index(self):
@@ -131,6 +147,9 @@ class StudentView(MyModelAdminView):
 
 
 class CourseView(MyModelAdminTeacherView):
+    # form_overrides = dict(description=CKEditorField)
+    create_template = '/admin/test_edit.html'
+    edit_template = '/admin/test_edit.html'
     column_list = ['name', 'description', 'lectures_auds', 'practice_auds', 'labs_auds', 'teachers', 'themes']
     column_labels = {
         'name': 'Название',
@@ -211,11 +230,11 @@ class CourseView(MyModelAdminTeacherView):
             'minimum_input_length': 0,
         }
     }
-
     form_subdocuments = {
         'themes': {
             'form_subdocuments': {
                 None: {
+                    'form_overrides' : dict(description=CKEditorField),
                     'form_columns': ('name', 'description', 'start_date', 'end_date'),
                     'form_args': {
                         'name': {

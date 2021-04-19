@@ -8,7 +8,7 @@ from .services import *
 @login_required
 def index():
     if request.method == "POST":
-        return render_template(template_name_or_list='courses/courses.html')
+        return ''
     else:
         course_id = request.args.get('id')
         if course_id:
@@ -17,13 +17,13 @@ def index():
         else:
             courses = get_courses_able_to_join(current_user.id)
             return render_template(template_name_or_list='courses/courses.html', courses = courses)
-        return render_template(template_name_or_list='courses/courses.html')
+
 
 @courses_bp.route('/active', methods=['GET', 'POST'])
 @login_required
 def user_courses():
     if request.method == "POST":
-        return render_template(template_name_or_list='courses/courses.html')
+        return ''
     else:
         courses = get_user_courses(current_user.id)
         return render_template(template_name_or_list='courses/courses.html', courses=courses)
