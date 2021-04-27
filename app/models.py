@@ -4,7 +4,7 @@ from flask import url_for
 from jinja2 import Markup
 from flask_admin.form import DatePickerWidget
 from flask_admin.form.widgets import DatePickerWidget
-
+from mongoengine import CASCADE, PULL
 
 def fetch_azure_token(request):
     token = OAuth2Token.objects(name='azure', user=request.user)
@@ -70,7 +70,7 @@ class User(UserMixin, db.Document):
 
     token = db.EmbeddedDocumentField(OAuth2Token)
 
-    role = db.StringField()
+    role = db.StringField(choices=["Студент", "Преподаватель", "Администратор"])
 
     email = db.EmailField(allow_utf8_user=True)
 
@@ -90,15 +90,24 @@ def load_user(_id):
     return user
 
 
+# class Images(db.Document):
+#     img = db.ImageField()
+#
+#     def __unicode__(self):
+#         return self.img
+
+
 class Course(db.Document):
     name = db.StringField()
-    students = db.ListField(db.ReferenceField(User))
+    # image = db.ReferenceField(Images)
+    students = db.ListField(db.ReferenceField(User, reverse_delete_rule=PULL))
     description = db.StringField()
-    lectures_auds = db.ListField(db.ReferenceField(Auditorium))
-    practice_auds = db.ListField(db.ReferenceField(Auditorium))
-    labs_auds = db.ListField(db.ReferenceField(Auditorium))
-    teachers = db.ListField(db.ReferenceField(User))
+    lectures_auds = db.ListField(db.ReferenceField(Auditorium, reverse_delete_rule=PULL))
+    practice_auds = db.ListField(db.ReferenceField(Auditorium, reverse_delete_rule=PULL))
+    labs_auds = db.ListField(db.ReferenceField(Auditorium, reverse_delete_rule=PULL))
+    teachers = db.ListField(db.ReferenceField(User, reverse_delete_rule=PULL))
     themes = db.ListField(db.EmbeddedDocumentField(Theme))
+    links = db.ListField(db.ReferenceField('Course', reverse_delete_rule=PULL))
 
     def __unicode__(self):
         return self.name

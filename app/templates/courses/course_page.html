@@ -5,7 +5,7 @@
 {% block styles %}
     <link rel="stylesheet" href="{{ url_for('static', filename='css/courses/menu.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/courses/normalize.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='fonts/fonts.css') }}">
+{#    <link rel="stylesheet" href="{{ url_for('static', filename='fonts/fonts.css') }}">#}
     <link rel="stylesheet" href="{{ url_for('static', filename='css/courses/LessonPage.css') }}">
 
 {#    <link rel="stylesheet" href="{{ url_for('static', filename='css/courses/lessons.css') }}">#}
@@ -14,104 +14,116 @@
     </header>
     <div class="header">
         <div class="head_description">
-                <div class="psevdTop"></div>
+            {% if current_user.id not in course.students %}
+                <div class="psevdTop">
+                    <!--Кнопка для отправки запроса на запись-->
+                        <button class="append">
+                            Записаться!
+                        </button>
+                </div>
+                <!--Название курса-->
                 <h1>
-                    {{ course.name }}
+                    {{course.name}}
                 </h1>
-                <div class="psevdBot"></div>
-
+            {% else %}
+                <h1>
+                    {{course.name}}
+                </h1>
+                <div class="psevdBot">
+                    <!--Статус записи-->
+                    <div class="status">Вы успешно записаны
+                        на курс
+                    </div>
+                </div>
+            {% endif %}
         </div>
     </div>
     <div class="AboutCourse">
         <div class="LeftSide">
             <div class="CourseDescription">
                 <h2 class="CourseTitle">Опиcание курса</h2>
+                <!--Опсиние курса-->
                 <p class="CourseP">
                     {{ course.description }}
                 </p>
+
                 <div class="Where">
+
                     <div class="infoGroup">
                         <span class="WhereElem">
                             Лекции:
                         </span>
-                        <span class="WhereElem">
-                            {{', '.join(course.lectures_auds | map(attribute='name') | list)}}
-                        </span>
-                    </div>
-                    <div class="infoGroup">
-                        <span class="WhereElem">
-                            Практика:
-                        </span>
-                        <span class="WhereElem">
-                            {{', '.join(course.practice_auds | map(attribute='name') | list)}}
-                        </span>
-                    </div>
-                    <div class="infoGroup">
-                        <span class="WhereElem">
-                            Лабораторные
-                        </span>
-                        <span class="WhereElem">
-                            {{', '.join(course.labs_auds | map(attribute='name') | list)}}
-                        </span>
+                        <!--Если аудиторно, то ссылка пуста,
+                            Текст - номер аудтории.
+                        Если онлайн, то ссылка на тимс, текст "Teams"-->
+                        {% for temp in course.lectures_auds %}
+                            <a class="WhereElem" href="#">
+                                {{ temp.name }}
+                            </a>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
 
             <div class="CourseTeachers">
-                <h2 class="CourseTitle">
-                    Преподаватели
-                </h2>
-                {% block teachers %}
-                    {% for teacher in course.teachers %}
-                        <div class="teacher">
-                            <div class="teacherTitle">
-                                <img src="{{ url_for('static', filename='img/courses/LessonPage/link.svg') }}" alt="link">
-                                <h3 class="H3teacher">{{ teacher.fullname }}</h3>
-                            </div>
-                            <p class="CourseP">
-                                {{ teacher.role }}
-                            </p>
-                            <div class="contact">
-                                <div class="social">
+
+
+                    <h2 class="CourseTitle">
+                        Преподаватели
+                    </h2>
+                    {% block teachers %}
+                        {% for teacher in course.teachers %}
+                            <div class="teacher">
+                                <div class="teacherTitle">
+                                    <!--Имя препода -->
+                                    <h3 class="H3teacher">{{ teacher.fullname }}</h3>
+                                </div>
+                                <!--Должность препода -->
+                                <p class="CourseP">
+                                    {{ teacher.role }}
+                                </p>
+                                <div class="contact">
+
+                                    <!-- Почта препода-->
                                     <div class="eMail">
                                         {{ teacher.email }}
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    {% endfor %}
-                {% endblock %}
+                        {% endfor %}
+                    {% endblock %}
             </div>
             <div class="crossing">
                 <h2 class="CourseTitle">
                     Пересечения
                 </h2>
+                <!-- Текст пересечения-->
                 <p class="CourseP">
                     Знания, полученные в ходе прохождения этого
                     курса, могут пригодится
-                    в следующих: физик, компьютерная графика, электрика.
+                    в следующих: {{', '.join(course.links | map(attribute='name') | list)}}.
                 </p>
             </div>
         </div>
-
         <div class="RightSide">
             {% block themes %}
                 {% for theme in course.themes %}
                     <div class="ThemeContainer">
                         <div class="SideBar">
-                            <img src="{{ url_for('static', filename='img/courses/LessonPage/arrow.svg') }}" alt="" class="arrow">
+                            <svg class="arrow" width="19" height="11" viewBox="0 0 19 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M17 9L10.1823 2.63683C9.79811 2.27824 9.20189 2.27824 8.81768 2.63683L2 9" stroke="black" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
                             <span class="TextOnLeft">
                                Описание
                             </span>
                         </div>
                         <div class="Theme">
+                            <!--Название темы предмета-->
                             <h2>
                                 {{ theme.name }}
                             </h2>
-                            <h3 class="Date">
-                                {{ theme.start_date.strftime('%d.%m.%Y') }} - {{ theme.end_date.strftime('%d.%m.%Y') }}
-                            </h3>
                             <div class="HiddenInfo">
+                                <!--Описание темы предмета-->
                                 <p class="themePar">
                                     {{ theme.description | safe}}
                                 </p>
@@ -124,5 +136,7 @@
     </div>
 {% endblock %}
 {% block scripts %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="{{ url_for('static', filename='js/courses/LessonPage.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/courses/button_handler.js') }}"></script>
 {% endblock %}

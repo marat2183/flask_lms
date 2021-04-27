@@ -102,6 +102,7 @@ class CourseView(ModelView):
             'label': 'Темы'
         },
 
+
     }
 
     form_subdocuments = {

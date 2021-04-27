@@ -1,4 +1,9 @@
-@import "../../fonts/fonts.css";
+
+body{
+    font-family: 'Roboto', Helvetica, Arial, sans-serif ;
+
+}
+
 h1, h2, h3, h4, h5, h6{
     font-weight: normal;
     font-family: 'Roboto', Helvetica, Arial, sans-serif ;
@@ -25,28 +30,11 @@ a:visited{
     margin-bottom: 120px;
 }
 
-.nav_links{
-    margin-top: 20px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
+
+#exit:hover{
+    color: #ea111c;
 }
 
-
-
-.topnav:hover{
-    color: #B111EA;
-}
-
-.topnav{
-    font-family: 'Roboto';
-    font-weight: 400;
-    font-size: 20px;
-    line-height: 23px;
-    text-transform: uppercase;
-    margin-right: 50px;
-}
 
 .head_description{
     display: flex;
@@ -57,6 +45,7 @@ a:visited{
     text-align: center;
     min-height: 140px;
 }
+
 
 
 
@@ -111,19 +100,47 @@ a:visited{
     left: 0;
 }
 
-.psevdTop::after{
+/* .psevdTop::after{
     content: '';
     display: block;
     height: 18px;
     width: 18px;
-    background-image: url(../../img/courses/LessonPage/check.svg);
+    background-image: url(../img/LessonPage/check.svg);
     
+} */
+
+
+.status{
+    display: block;
+    color: #D4D4D4;
+    font-family: Roboto;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 27px;
+    letter-spacing: 0em;
+    text-align: left;
+    font-family: "Roboto";
 }
 
+.append{
+    cursor: pointer;
+    
+    border: none;
+    background: #b111ea;
+    color:white;
+    font-family: Roboto;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 27px;
+    letter-spacing: 0em;
+    text-align: left;
+    font-family: "Roboto";
+    border-radius: 7px;
+}
 
-
-
-.psevdBot::before{
+/* .psevdBot::before{
     content: 'Вы уже записаны на этот курс';
     display: block;
     color: #D4D4D4;
@@ -136,7 +153,7 @@ a:visited{
     text-align: left;
     font-family: "Roboto";
 
-}
+} */
 
 .psevdBot::after{
     content: '';
@@ -167,6 +184,7 @@ a:visited{
 
 .CourseTitle{
     margin-bottom: 32px;
+    font-size: 36px;
 }
 
 .CourseDescription{
@@ -175,16 +193,28 @@ a:visited{
     justify-content: center;
     flex-direction: column;
     align-items: flex-end;
+    width: 100%;
 }
 
 .CourseP{
-    font-family: RobotoLight;
+    font-family: Roboto;
+    font-weight: 400;
     font-style: normal;
     font-weight: normal;
     font-size: 18px;
     line-height: 150%;
 }
 
+.H3teacher{
+    font-family: Roboto;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 21px;
+    letter-spacing: 0em;
+    text-align: right;
+
+}
 
 .Where{
     display: flex;
@@ -200,6 +230,7 @@ a:visited{
     justify-content: center;
     flex-direction: column;
     align-items: flex-end;
+    width: 100%;
 }
 
 
@@ -239,6 +270,18 @@ a:visited{
     
 }
 
+.WhereElem{
+    
+    font-family: Roboto;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 27px;
+    letter-spacing: 0em;
+    text-align: justified;
+
+}
+
 .teacher{
     display: flex;
     flex-direction: column;
@@ -250,6 +293,15 @@ a:visited{
 
 .eMail{
     color:#B111EA;
+    
+    font-family: Roboto;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 27px;
+    letter-spacing: 0em;
+    text-align: justified;
+
 }
 
 .crossing{
@@ -270,6 +322,7 @@ a:visited{
 
 .themeTitle > h2 {
     text-align: left;
+    
 }
 
 .arrow {
@@ -277,9 +330,17 @@ a:visited{
     margin-top: 15px;
     width: 21px;
     height: 10px;
+    stroke:#B111EA;
 }
 
-.SideBar{
+.arrow:hover path{
+    stroke:#B111EA;
+    cursor: pointer;
+}
+
+
+
+.SideBar{   
     margin: 0 42px;
     
 }
@@ -292,15 +353,20 @@ a:visited{
 }
 
 .Theme{
-    min-width: 495px;
+    
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     text-align: left;
 }
 
+.Theme>h2{
+    font-size: 32px;
+    text-align: left;
+}
+
 .Date{
-    font-family: RobotoLight;
+    font-family: Roboto;
     color:#D4D4D4;
     font-size: 18px;
     line-height: 27px;
@@ -320,7 +386,7 @@ a:visited{
 }
 
 .themePar{
-    font-family: RobotoLight;
+    font-family: Roboto;
     font-style: normal;
     font-weight: normal;
     font-size: 18px;
@@ -338,7 +404,7 @@ a:visited{
     text-transform: lowercase;
     color: #B111EA;
     margin-left: 5px;
-    margin-top: 80px;
+    margin-top: 40px;
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.2s ease-out;
@@ -347,6 +413,7 @@ a:visited{
 .active{
     transform: rotate(0.5turn);
     transition: max-height 0.2s ease-out;
+    
     
 }
 
@@ -365,8 +432,8 @@ a:visited{
         align-items: center;
     }
 
-    .LeftSide .RightSide{
-        min-width: 495px;
+    .LeftSide{
+        min-width: 300px;
         
         width: 90%;
         margin-left: 10%;
@@ -375,12 +442,26 @@ a:visited{
         text-align: center;
     }
 
-    .CourseP{
+    .RightSide{
+        min-width: 300px;
+        
+        width: 90%;
+        margin-left: 10%;
+        margin-right: 0;
+        margin: auto;
         text-align: center;
+        align-items: center;
+    }
+
+    .CourseP{
+        text-align: left;
+        
+        
     }
 
     .RightSide{
         margin-top: 50px;
+        margin-right: 10%;
     }
 
     .CourseTeachers{
@@ -388,7 +469,7 @@ a:visited{
     }
 
     .Theme{
-        text-align: center;
+        text-align: left;
     }
 
     .CourseDescription{
@@ -402,4 +483,102 @@ a:visited{
     .SideBar{
         margin-left: 0;
     }
+
+    .themePar{
+        width: 350px;
+    }
+
+    .SideBar{
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .head_description{
+        margin-top: 50px;
+        
+    }
+    .header{
+        margin-bottom: 50px;
+    }
+  }
+
+
+  @media screen and  (max-width:850px){
+      .nav_links{
+          flex-direction: column;
+          align-items: center;
+      }
+      .topnav{
+          font-size: 15px;
+          margin-right: 0;
+          margin-bottom: 5px;
+      }
+  }
+
+
+  @media screen and  (max-width:600px){
+      .Theme>h2{
+          font-size: 24px;
+      }
+
+      .head_description{
+          margin-top: 50px;
+      }
+
+      .head_description>h1{
+          font-size: 38px;
+          margin: 0;
+      }
+
+      .psevdTop,
+      .psevdBot{
+          min-width: 200px;
+      }
+
+      .psevdBot::before{
+          font-size: 7px;
+      }
+
+      
+
+      .psevdBot:after,
+      .psevdTop::before{
+          width: 150px;
+          height: 4px;
+      }
+
+      .head_description{
+          min-height: 80px;
+      }
+
+
+
+      .CourseP, .WhereElem, .teacherTitle, 
+      .themePar{
+          font-size: 15px;
+      }
+      .CourseTitle{
+          font-size: 30px;
+      }
+
+      .header{
+          margin-bottom: 50px;
+      }
+
+      
+
+      .RightSide{
+          justify-content: center;
+          align-items: center;
+          width: none;
+      }
+
+      .themePar{
+          width: 80%;
+      }
+
+      .SideBar{
+          margin: 0 24px;
+      }
   }

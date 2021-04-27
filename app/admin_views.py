@@ -36,6 +36,7 @@ class FilteredByRoleAjaxModelLoader(QueryAjaxModelLoader):
         self.filter_by_role = options.get('filter_by_role')
 
 
+
 class MyModelAdminView(ModelView):
     def is_accessible(self):
         if current_user.is_authenticated and current_user.role == 'Администратор':
@@ -43,9 +44,12 @@ class MyModelAdminView(ModelView):
         return False
 
     def inaccessible_callback(self, name, **kwargs):
-        if current_user.is_authenticated:
+        if current_user.is_authenticated and current_user.role == 'Преподаватель':
+            return redirect(url_for('course.index_view'))
+        elif current_user.is_authenticated and current_user.role == 'Студент':
             return redirect(url_for('courses.index'))
-        return redirect(url_for('auth.index'))
+        else:
+            return redirect(url_for('auth.index'))
 
 
 class MyModelTeacherView(ModelView):
@@ -190,7 +194,10 @@ class CourseView(MyModelAdminTeacherView):
         },
         'students': {
             'label': 'Участники'
-        }
+        },
+        'links': {
+            'label': 'Пересечения'
+        },
 
     }
 
@@ -228,7 +235,8 @@ class CourseView(MyModelAdminTeacherView):
             'fields': ('name',),
             'placeholder': 'Пожалуйста, выберите аудитории',
             'minimum_input_length': 0,
-        }
+        },
+
     }
     form_subdocuments = {
         'themes': {

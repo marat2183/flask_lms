@@ -63,10 +63,11 @@ def create_app(config_name: str):
         update_token=update_azure_token
     )
 
-    admin.add_view(StudentView(User, name='Студенты'))
+    admin.add_view(StudentView(User, name='Пользователи'))
     admin.add_view(CourseView(Course, name='Курсы'))
     admin.add_view((GroupView(Group, name='Группы')))
     admin.add_view(AuditoriumView(Auditorium, name='Аудитории'))
+    # admin.add_view(ModelView(Images, name='Картинки'))
     from .auth import bp as auth_bp
     from .courses import bp as courses_bp
     from .main import bp as main_bp

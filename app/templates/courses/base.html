@@ -21,13 +21,14 @@
                 <ul class="navbar">
                     <div class="row navbar-wrap">
                         <li><a class="navbar-item" href="#">Главная</a></li>
-                        <li><a class="navbar-item active-link" href="#">Список предметов</a></li>
+                        <li><a class="navbar-item active-link" href="{{ url_for('courses.user_courses') }}">Список предметов</a></li>
                         <li><a class="navbar-item" href="#">Запись на проекты</a></li>
                         <li>
                             <a class="navbar-item username" href="#">
                                 {{ current_user.fullname }}
                             </a>
                         </li>
+                        <li><a class="navbar-item" href="{{ url_for('auth.logout') }}">Выход</a></li>
                     </div>
                 </ul>
             </nav>

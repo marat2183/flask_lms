@@ -9,7 +9,7 @@ from flask import (
     redirect,
     current_app
 )
-from app import oauth
+from app import oauth, login_manager
 from app.models import User, OAuth2Token, Course
 
 
@@ -62,7 +62,7 @@ def authorized():
         next_url = request.args.get('next')
         if next_url is None or not next_url.startswith('/'):
             if current_user.role == 'Администратор' or current_user.role == 'Преподаватель':
-                next_url = url_for('admin.index')
+                next_url = url_for('course.index_view')
             else:
                 next_url = url_for('courses.index')
         return redirect(next_url)
@@ -75,7 +75,7 @@ def authorized():
     user.save()
     login_user(user, remember=True)
     if current_user.role == 'Администратор' or current_user.role == 'Преподаватель':
-        return redirect(url_for('admin.index'))
+        return redirect(url_for('course.index_view'))
     return redirect(url_for('courses.index'))
 
 
@@ -83,3 +83,8 @@ def authorized():
 def display_info():
     resp = oauth.azure.get('me')
     return str(resp)
+
+
+@login_manager.unauthorized_handler
+def unauthorized_callback():
+    return redirect(url_for('auth.index'))
