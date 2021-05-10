@@ -1,0 +1,16 @@
+{% extends 'courses/base.html' %}
+{% set active_page = "index" %}
+{% block title %}
+Главная
+{% endblock %}
+{% block styles %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/courses/menu.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/courses/footer.css') }}">
+{% endblock %}
+{% block content %}
+    </header>
+    <h1>Hello World</h1>
+{% endblock %}
+{% block scripts %}
+
+{% endblock %}

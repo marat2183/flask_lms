@@ -20,14 +20,14 @@ def get_courses_by_id(id) -> Course:
                     'as': 'teachers'
                 }
             },
-            {
-                '$lookup': {
-                    'from': 'auditorium',
-                    'localField': 'labs_auds',
-                    'foreignField': '_id',
-                    'as': 'labs_auds'
-                }
-            },
+            # {
+            #     '$lookup': {
+            #         'from': 'auditorium',
+            #         'localField': 'labs_auds',
+            #         'foreignField': '_id',
+            #         'as': 'labs_auds'
+            #     }
+            # },
             {
                 '$lookup': {
                     'from': 'auditorium',
@@ -36,14 +36,14 @@ def get_courses_by_id(id) -> Course:
                     'as': 'lectures_auds'
                 }
             },
-            {
-                '$lookup': {
-                    'from': 'auditorium',
-                    'localField': 'practice_auds',
-                    'foreignField': '_id',
-                    'as': 'practice_auds'
-                }
-            },
+            # {
+            #     '$lookup': {
+            #         'from': 'auditorium',
+            #         'localField': 'practice_auds',
+            #         'foreignField': '_id',
+            #         'as': 'practice_auds'
+            #     }
+            # },
             {
                 '$lookup': {
                     'from': 'course',
@@ -69,6 +69,7 @@ def get_courses_able_to_join(id):
         pass
     except:
         pass
+
 
 def get_user_courses(id):
     try:

@@ -17,23 +17,55 @@
 <body>
     {% block nav %}
         <header>
-            <nav>
-                <ul class="navbar">
-                    <div class="row navbar-wrap">
-                        <li><a class="navbar-item" href="#">Главная</a></li>
-                        <li><a class="navbar-item active-link" href="{{ url_for('courses.user_courses') }}">Список предметов</a></li>
-                        <li><a class="navbar-item" href="#">Запись на проекты</a></li>
-                        <li>
-                            <a class="navbar-item username" href="#">
-                                {{ current_user.fullname }}
-                            </a>
-                        </li>
-                        <li><a class="navbar-item" href="{{ url_for('auth.logout') }}">Выход</a></li>
+            <div class="header">
+                <div class="container">
+                    <div class="header_body">
+                        <div class="header_burger">
+                            <span></span>
+                        </div>
+                        <nav class="header_menu">
+                            <ul class="header_list">
+                                <li><a href="{{ url_for('main.index') }}" class="header_link {{ 'active_link' if
+                                active_page=='index' else ''}}
+                                }}">Главная</a></li>
+                                <li><a href="{{ url_for('courses.user_courses') }}" class="header_link {{ 'active_link' if
+                                active_page=='courses' or active_page=='active_courses' else ''}}">Список
+                                    предметов</a></li>
+                                <li><a href="{{ url_for('projects.index') }}" class="header_link">Запись на
+                                    проект</a></li>
+                                {% if current_user.is_authenticated %}
+                                    <li><a href="{{ url_for('auth.logout') }}" class="header_link">Выйти</a></li>
+                                {% else %}
+                                    <li><a href="{{ url_for('auth.oidc') }}" class="header_link">Войти</a></li>
+                                {% endif %}
+                            </ul>
+                        </nav>
                     </div>
-                </ul>
-            </nav>
+                </div>
+            </div>
     {% endblock %}
 	{% block content %}
+    {% endblock %}
+    {% block footer %}
+        <footer class="foot">
+            <div class="footer_container">
+                <h1 class="footer_title">Карта сайта</h1>
+                <div class="footer_items">
+                    <a href="" class="footer_nav">главная</a>
+                    <a href="lessons.html" class="footer_nav">список предметов</a>
+                    <a href="" class="footer_nav">запись на проект </a>
+                    <a href="" class="footer_nav">выход</a>
+                </div>
+            </div>
+
+            <div class="footer_container">
+                <h1 class="footer_title">Контакты</h1>
+                <div class="footer_items">
+                    <a href="https://vk.com/proictis" class="footer_nav">vk</a>
+
+                </div>
+            </div>
+        </footer>
     {% endblock %}
     {% block scripts %}
     {% endblock %}

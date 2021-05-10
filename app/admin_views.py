@@ -36,7 +36,6 @@ class FilteredByRoleAjaxModelLoader(QueryAjaxModelLoader):
         self.filter_by_role = options.get('filter_by_role')
 
 
-
 class MyModelAdminView(ModelView):
     def is_accessible(self):
         if current_user.is_authenticated and current_user.role == 'Администратор':
@@ -90,6 +89,9 @@ class MyModelAdminTeacherView(ModelView):
 
 
 class MyAdminIndexView(AdminIndexView):
+    def is_visible(self):
+        return False
+
     def is_accessible(self):
         if current_user.is_authenticated and (current_user.role == 'Администратор' or current_user.role == 'Преподаватель'):
             return True
@@ -126,35 +128,55 @@ class TeacherView(MyModelAdminView):
 
 
 class StudentView(MyModelAdminView):
+    def search_placeholder(self):
+        return 'Введите ФИО'
+
     form_excluded_columns = ['azure_oid', 'token', 'active']
-    column_list = ['fullname', 'group', 'courses', 'role']
+    column_list = ['fullname', 'role']
+    page_size = 25
+    column_searchable_list = ['fullname']
     column_labels = {
         'fullname': 'ФИО',
         'group': 'Группа',
-        'courses': 'Курсы',
         'role': 'Роль'
     }
     form_args = {
         'fullname': {
             'label': 'ФИО',
+            'render_kw': {
+                'placeholder': 'Введите ФИО',
+            },
+        },
+        'email': {
+            'label': 'Электронная почта',
+            'render_kw': {
+                'placeholder': 'Введите электронную почту',
+            },
         },
         'group': {
             'label': 'Группа',
-        },
-        'courses': {
-            'label': 'Курсы',
+
         },
         'role': {
             'label': 'Роль',
-        }
+            'render_kw': {
+                'placeholder': 'Выберите роль',
+            },
+        },
+        'description': {
+            'label': 'Описание',
+             'render_kw': {
+                  'placeholder': 'Введите описание',
+            },
+        },
     }
 
 
 class CourseView(MyModelAdminTeacherView):
     # form_overrides = dict(description=CKEditorField)
-    create_template = '/admin/test_edit.html'
-    edit_template = '/admin/test_edit.html'
-    column_list = ['name', 'description', 'lectures_auds', 'practice_auds', 'labs_auds', 'teachers', 'themes']
+    create_template = '/admin/new_edit.html'
+    edit_template = '/admin/new_edit.html'
+    column_list = ['name', 'description', 'lectures_auds', 'teachers', 'themes']
     column_labels = {
         'name': 'Название',
         'description': 'Описание',
@@ -180,12 +202,12 @@ class CourseView(MyModelAdminTeacherView):
         'lectures_auds': {
             'label': 'Aудитории для лекций'
         },
-        'practice_auds': {
-            'label': 'Aудитории для практический занятий'
-        },
-        'labs_auds': {
-            'label': 'Aудитории для лабораторных занятий'
-        },
+        # 'practice_auds': {
+        #     'label': 'Aудитории для практический занятий'
+        # },
+        # 'labs_auds': {
+        #     'label': 'Aудитории для лабораторных занятий'
+        # },
         'teachers': {
             'label': 'Преподаватели'
         },
@@ -197,6 +219,9 @@ class CourseView(MyModelAdminTeacherView):
         },
         'links': {
             'label': 'Пересечения'
+        },
+        'course_type': {
+            'label': 'Тип'
         },
 
     }
@@ -220,30 +245,30 @@ class CourseView(MyModelAdminTeacherView):
                 minimum_input_length=0,
                 placeholder='Пожалуйста, выберите студентов'
             ),
-        'labs_auds': {
-                'fields': ('name',),
-                'placeholder': 'Пожалуйста, выберите аудитории',
-                'minimum_input_length': 0,
-        },
+        # 'labs_auds': {
+        #         'fields': ('name',),
+        #         'placeholder': 'Пожалуйста, выберите аудитории',
+        #         'minimum_input_length': 0,
+        # },
 
         'lectures_auds': {
             'fields': ('name',),
             'placeholder': 'Пожалуйста, выберите аудитории',
             'minimum_input_length': 0,
         },
-        'practice_auds': {
-            'fields': ('name',),
-            'placeholder': 'Пожалуйста, выберите аудитории',
-            'minimum_input_length': 0,
-        },
+        # 'practice_auds': {
+        #     'fields': ('name',),
+        #     'placeholder': 'Пожалуйста, выберите аудитории',
+        #     'minimum_input_length': 0,
+        # },
 
     }
     form_subdocuments = {
         'themes': {
             'form_subdocuments': {
                 None: {
-                    'form_overrides' : dict(description=CKEditorField),
-                    'form_columns': ('name', 'description', 'start_date', 'end_date'),
+                    'form_overrides': dict(description=CKEditorField),
+                    'form_columns': ('name', 'description'),
                     'form_args': {
                         'name': {
                             'label': 'Название'
@@ -251,25 +276,25 @@ class CourseView(MyModelAdminTeacherView):
                         'description': {
                             'label': 'Описание'
                         },
-                        'start_date': {
-                            'label': 'Начало',
-                            'format': '%d.%m.%Y',
-                        },
-                        'end_date': {
-                            'label': 'Конец',
-                            'format': '%d.%m.%Y',
-                        }
+                        # 'start_date': {
+                        #     'label': 'Начало',
+                        #     'format': '%d.%m.%Y',
+                        # },
+                        # 'end_date': {
+                        #     'label': 'Конец',
+                        #     'format': '%d.%m.%Y',
+                        # }
                     },
-                    'form_widget_args':{
-                        'start_date': {
-                            'data-date-format': u'DD.MM.YYYY',
-                            'data-show-meridian': 'True'
-                        },
-                        'end_date': {
-                            'data-date-format': u'DD.MM.YYYY',
-                            'data-show-meridian': 'True'
-                        }
-                    }
+                    # 'form_widget_args':{
+                    #     'start_date': {
+                    #         'data-date-format': u'DD.MM.YYYY',
+                    #         'data-show-meridian': 'True'
+                    #     },
+                    #     'end_date': {
+                    #         'data-date-format': u'DD.MM.YYYY',
+                    #         'data-show-meridian': 'True'
+                    #     }
+                    # }
                 }
             }
         }

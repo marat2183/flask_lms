@@ -38,3 +38,6 @@ a.bg-dark:focus{
     outline: none;
 
 }
+.btn{
+    margin-bottom: 10px;
+}

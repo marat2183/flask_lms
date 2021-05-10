@@ -13,8 +13,8 @@ h1, h2, h3, h4, h5, h6{
 a{
     text-decoration: none;
     color: black;
-    
-    
+
+
 }
 
 a:visited{
@@ -22,7 +22,81 @@ a:visited{
     color: black;
 }
 
-.header{
+/*хедер*/
+
+header {
+    width: 100vw;
+    margin: 0;
+    padding: 0;
+    background: url(../../img/courses/lessons/Body.png) top center no-repeat;
+    background-size: 100% 100%;
+}
+
+ul {
+    list-style-type: none;
+}
+
+.container {
+    width: 90vw;
+    margin: 0 auto;
+    padding: 0 10px;
+}
+
+.header {
+    position: fixed;
+    width: 100vw;
+    top: 0;
+    left: 0;
+}
+
+.header:before {
+    content: "";
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: rgb(238, 238, 238);
+    opacity: 100%;
+    z-index: 2;
+}
+
+.header_body {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    height: 70px;
+    align-items: center;
+}
+
+.header_burger {
+    display: none;
+}
+
+.header_menu {
+    transition: all 0.2s ease-out;
+}
+
+.header_list {
+    display: flex;
+}
+
+.header_list li {
+    list-style: none;
+    margin: 0px 20px;
+    z-index: 3;
+}
+
+.header_link {
+    color: #000;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 20px;
+    line-height: 23px;
+    position: relative;
+}
+
+.header_main{
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -30,9 +104,13 @@ a:visited{
     margin-bottom: 120px;
 }
 
+a.active_link,
+a:hover {
+    color: #B111EA;
+}
 
-#exit:hover{
-    color: #ea111c;
+a:active {
+    color: #C849F5;
 }
 
 
@@ -44,6 +122,7 @@ a:visited{
     margin-top: 100px;
     text-align: center;
     min-height: 140px;
+
 }
 
 
@@ -67,17 +146,15 @@ a:visited{
 }
 
 .head_description > h1{
-    
     font-size: 64px;
     font-style: normal;
-    font-weight: 500;
+    font-weight: 600;
     line-height: 75px;
     letter-spacing: 0.2em;
-    text-align: left;
     margin-bottom: 20px;
     text-transform: uppercase;
     text-align: center;
-    max-width: 553px;
+    /*max-width: 553px;*/
 }
 
 
@@ -87,8 +164,6 @@ a:visited{
     justify-content: space-between;
     align-items: center;
     min-width: 550px;
-    
-    
 }
 
 .psevdTop::before{
@@ -96,71 +171,34 @@ a:visited{
     display: block;
     width: 200px;
     height: 6px;
-    background-color: #B111EA;
+    background-color: #fff;
     left: 0;
 }
 
-/* .psevdTop::after{
-    content: '';
-    display: block;
-    height: 18px;
-    width: 18px;
-    background-image: url(../img/LessonPage/check.svg);
-    
-} */
 
 
 .status{
-    display: block;
-    color: #D4D4D4;
     font-family: Roboto;
     font-size: 18px;
     font-style: normal;
     font-weight: 400;
-    line-height: 27px;
+    line-height: 21px;
     letter-spacing: 0em;
-    text-align: left;
-    font-family: "Roboto";
+    text-align: right;
 }
-
-.append{
+.btn_to_write{
+    text-decoration-line: underline;
     cursor: pointer;
-    
-    border: none;
-    background: #b111ea;
-    color:white;
-    font-family: Roboto;
-    font-size: 18px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: 27px;
-    letter-spacing: 0em;
-    text-align: left;
-    font-family: "Roboto";
-    border-radius: 7px;
 }
-
-/* .psevdBot::before{
-    content: 'Вы уже записаны на этот курс';
-    display: block;
-    color: #D4D4D4;
-    font-family: Roboto;
-    font-size: 18px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 27px;
-    letter-spacing: 0em;
-    text-align: left;
-    font-family: "Roboto";
-
-} */
-
+.aud_link{
+    color:#B111EA !important;
+}
 .psevdBot::after{
     content: '';
     display: block;
     width: 200px;
     height: 6px;
-    background-color: #B111EA;
+    background-color: #fff;
     right: 0;
 }
 
@@ -188,12 +226,12 @@ a:visited{
 }
 
 .CourseDescription{
+    width: 100%;
     margin-bottom: 45px;
     display: flex;
     justify-content: center;
     flex-direction: column;
     align-items: flex-end;
-    width: 100%;
 }
 
 .CourseP{
@@ -226,11 +264,11 @@ a:visited{
 
 
 .CourseTeachers{
+    width: 100%;
     display: flex;
     justify-content: center;
     flex-direction: column;
     align-items: flex-end;
-    width: 100%;
 }
 
 
@@ -267,19 +305,17 @@ a:visited{
 
 .WhereElem:nth-child(even){
     color: #B111EA;
-    
+
 }
 
 .WhereElem{
-    
+
     font-family: Roboto;
     font-size: 18px;
     font-style: normal;
     font-weight: 400;
     line-height: 27px;
     letter-spacing: 0em;
-    text-align: justified;
-
 }
 
 .teacher{
@@ -293,18 +329,16 @@ a:visited{
 
 .eMail{
     color:#B111EA;
-    
     font-family: Roboto;
     font-size: 18px;
     font-style: normal;
     font-weight: 400;
     line-height: 27px;
     letter-spacing: 0em;
-    text-align: justified;
-
 }
 
 .crossing{
+    width: 100%;
     display: flex;
     justify-content: center;
     flex-direction: column;
@@ -315,14 +349,14 @@ a:visited{
 
 .RightSide{
     text-align: left;
-    width: 45%;
+    width: 55%;
     display: flex;
     flex-direction: column;
 }
 
 .themeTitle > h2 {
     text-align: left;
-    
+
 }
 
 .arrow {
@@ -340,9 +374,9 @@ a:visited{
 
 
 
-.SideBar{   
+.SideBar{
     margin: 0 42px;
-    
+
 }
 
 .themeTitle{
@@ -353,7 +387,7 @@ a:visited{
 }
 
 .Theme{
-    
+
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -373,7 +407,7 @@ a:visited{
     font-style: normal;
     font-weight: normal;
     font-weight: bold;
-    
+
 }
 
 
@@ -381,7 +415,6 @@ a:visited{
 .ThemeContainer{
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
     align-items: flex-start;
 }
 
@@ -410,17 +443,17 @@ a:visited{
     transition: max-height 0.2s ease-out;
 }
 
-.active{
+.active_arr{
     transform: rotate(0.5turn);
     transition: max-height 0.2s ease-out;
-    
-    
+
+
 }
 
 .HiddenInfo{
     max-height: 0;
     overflow: hidden;
-    
+
     transition: max-height 0.2s ease-out;
 }
 
@@ -434,7 +467,7 @@ a:visited{
 
     .LeftSide{
         min-width: 300px;
-        
+
         width: 90%;
         margin-left: 10%;
         margin-right: 0;
@@ -444,7 +477,7 @@ a:visited{
 
     .RightSide{
         min-width: 300px;
-        
+
         width: 90%;
         margin-left: 10%;
         margin-right: 0;
@@ -455,8 +488,8 @@ a:visited{
 
     .CourseP{
         text-align: left;
-        
-        
+
+
     }
 
     .RightSide{
@@ -496,7 +529,7 @@ a:visited{
 
     .head_description{
         margin-top: 50px;
-        
+
     }
     .header{
         margin-bottom: 50px;
@@ -540,7 +573,7 @@ a:visited{
           font-size: 7px;
       }
 
-      
+
 
       .psevdBot:after,
       .psevdTop::before{
@@ -554,8 +587,8 @@ a:visited{
 
 
 
-      .CourseP, .WhereElem, .teacherTitle, 
-      .themePar{
+      .CourseP, .WhereElem, .teacherTitle,
+      .themePar, .status{
           font-size: 15px;
       }
       .CourseTitle{
@@ -566,12 +599,11 @@ a:visited{
           margin-bottom: 50px;
       }
 
-      
+
 
       .RightSide{
           justify-content: center;
           align-items: center;
-          width: none;
       }
 
       .themePar{
@@ -582,3 +614,128 @@ a:visited{
           margin: 0 24px;
       }
   }
+
+
+/*Хедер медиа*/
+
+@media screen and (max-width: 910px) {
+    .header-text .title {
+        font-size: calc(35px + (16 + 16 * 0.7) * ((100vw - 320px) / 910));
+    }
+
+    .subj {
+        width: 90vw;
+        flex-direction: column;
+        margin: 10px auto;
+        padding: 20px 18px;
+        border-radius: 7px;
+        text-decoration: none;
+    }
+
+    .tabs {
+        width: 100vw;
+    }
+
+    .main-wrap {
+        width: 100vw;
+    }
+
+    .header-text {
+        margin: 16px auto 0;
+        padding-bottom: 30px;
+
+    }
+
+    header {
+        background: url(../../img/courses/lessons/Body.png) bottom center no-repeat;
+        background-size: 120% 100%;
+    }
+
+    .header_burger {
+        display: block;
+        position: relative;
+        width: 30px;
+        height: 20px;
+        z-index: 3;
+        position: relative;
+    }
+
+    .header_body {
+        height: 50px;
+        justify-content: flex-start;
+    }
+
+    .header_burger:before,
+    .header_burger:after {
+        content: '';
+        background-color: #000;
+        position: absolute;
+        width: 100%;
+        height: 3px;
+        left: 0;
+        transition: all 0.2s ease-out;
+    }
+
+    .header_burger:before {
+        top: 0;
+    }
+
+    .header_burger:after {
+        bottom: 0;
+    }
+
+    .container {
+        width: 100vw;
+    }
+
+    .header_burger span {
+        background-color: #000;
+        position: absolute;
+        width: 100%;
+        height: 3px;
+        left: 0;
+        top: 9px;
+        transition: all 0.2s ease-out;
+    }
+
+    .header_menu {
+        position: fixed;
+        top: -100%;
+        left: 0;
+        width: 100vw;
+        height: 100%;
+        background-color: #fff;
+        padding: 50px 0px 0px 0px;
+        ;
+    }
+
+    .header_menu.active {
+        top: 0;
+    }
+
+    .header_list {
+        display: block;
+    }
+
+    .header_list li {
+        list-style: none;
+        margin: 10px 0px;
+        padding: 30px 0;
+        z-index: 1;
+    }
+
+    .header_burger.active:before {
+        transform: rotate(45deg);
+        top: 8.5px;
+    }
+
+    .header_burger.active:after {
+        transform: rotate(-45deg);
+        bottom: 8.5px;
+    }
+
+    .header_burger.active span {
+        transform: scale(0)
+    }
+
+}

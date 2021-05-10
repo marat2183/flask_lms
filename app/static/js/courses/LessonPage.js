@@ -1,9 +1,11 @@
 let coll = document.getElementsByClassName('arrow');
 let HiddenInfo = document.getElementsByClassName('HiddenInfo');
+let svg = document.getElementsByTagName('path');
+console.log(svg);
 //Вешаем ивенты на каждую стрелку и выбираем следующий элемент (надпись слева)
 for (let i = 0; i< coll.length; i++) {
     coll[i].addEventListener('click',function(){
-        this.classList.toggle('active');
+        this.classList.toggle('active_arr');
         
         let content = this.nextElementSibling;
         // Отображение надписи слева при помощи изменения размера родительского блока

@@ -1,10 +1,11 @@
 {% extends 'courses/base.html' %}
-{% set active_page = "courses" %}
+{% set active_page = "active_courses" %}
 {% block title %}
 Курсы
 {% endblock %}
 {% block styles %}
     <link rel="stylesheet" href="{{ url_for('static', filename='css/courses/lessons.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/courses/menu.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/courses/footer.css') }}">
 {% endblock %}
 {% block content %}
@@ -26,7 +27,7 @@
     <div class="main row">
         <div class="main-wrap column">
             <ul class="tabs row">
-                <li class="tab left-tab">
+                <li class="tab left-tab active-tab">
                     <a href="{{ url_for('courses.user_courses') }}">
                         <div class="row tab-wrap">
                             <img src="{{ url_for('static', filename='img/courses/lessons/icons/check-list.svg') }}" alt=""> <span class="tab-title">Выбранные
@@ -34,7 +35,7 @@
                         </div>
                     </a>
                 </li>
-                <li class="tab right-tab active-tab">
+                <li class="tab right-tab">
                     <a href="{{ url_for('courses.index') }}">
                         <div class="row tab-wrap">
                             <img src="{{ url_for('static', filename='img/courses/lessons/icons/list.svg') }}" alt=""> <span class="tab-title">Выбор предметов</span>
@@ -46,7 +47,7 @@
                 {% block courses %}
                     {% for course in courses %}
                         <a href="{{ url_for('courses.index', id=course.id) }}" class="subj">
-                            <img src="{{ icons[course.course_type] }}" alt="" class="subj-icon">
+                            <img src="{{ url_for('static', filename='img/courses/lessons/icons/math.svg') }}" alt="" class="subj-icon">
                             <div class="subj-text column">
                                 <div class="subj-title">{{ course.name }}</div>
                                 <div class="subj-descryption">

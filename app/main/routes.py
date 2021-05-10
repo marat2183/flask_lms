@@ -6,4 +6,4 @@ from flask_login import current_user
 @main.route('/')
 @main.route('/index')
 def index():
-    return 'Hello World!'
+    return render_template('main/index.html')

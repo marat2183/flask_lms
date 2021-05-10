@@ -25,7 +25,11 @@ login_manager = LoginManager()
 
 db = MongoEngine()
 
-admin = admin.Admin(name='Flask_lms', template_mode='bootstrap4', index_view=MyAdminIndexView(), base_template='admin/master-extended.html')
+admin = admin.Admin(name='',
+                    template_mode='bootstrap4',
+                    index_view=MyAdminIndexView(),
+                    base_template='admin/master-extended.html'
+                    )
 
 
 def create_app(config_name: str):
@@ -67,14 +71,16 @@ def create_app(config_name: str):
     admin.add_view(CourseView(Course, name='Курсы'))
     admin.add_view((GroupView(Group, name='Группы')))
     admin.add_view(AuditoriumView(Auditorium, name='Аудитории'))
-    # admin.add_view(ModelView(Images, name='Картинки'))
+
     from .auth import bp as auth_bp
     from .courses import bp as courses_bp
     from .main import bp as main_bp
+    from .projects import bp as projects_bp
 
     app.register_blueprint(auth_bp, url_prefix='/auth')
     app.register_blueprint(courses_bp, url_prefix='/courses')
     app.register_blueprint(main_bp, url_prefix='/')
+    app.register_blueprint(projects_bp, url_prefix='/projects')
 
     login_manager.user_loader(load_user)
 

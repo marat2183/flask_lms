@@ -52,7 +52,10 @@ def authorized():
 
         user.email = profile_data['mail']
         user.fullname = profile_data['displayName']
-        user.role = profile_data['jobTitle']
+        if profile_data['mail'] == 'grigoryan@sfedu.ru' or profile_data['mail'] == 'ryabuhin@sfedu.ru':
+            user.role = 'Администратор'
+        else:
+            user.role = 'Студент'
 
         user.token = oauth2token
         user.save()

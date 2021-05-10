@@ -3,38 +3,38 @@
 {{ course.name }}
 {% endblock %}
 {% block styles %}
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/courses/menu.css') }}">
+{#    <link rel="stylesheet" href="{{ url_for('static', filename='css/courses/menu.css') }}">#}
     <link rel="stylesheet" href="{{ url_for('static', filename='css/courses/normalize.css') }}">
 {#    <link rel="stylesheet" href="{{ url_for('static', filename='fonts/fonts.css') }}">#}
     <link rel="stylesheet" href="{{ url_for('static', filename='css/courses/LessonPage.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/courses/footer.css') }}">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
 
-{#    <link rel="stylesheet" href="{{ url_for('static', filename='css/courses/lessons.css') }}">#}
 {% endblock %}
 {% block content %}
     </header>
-    <div class="header">
+    <div class="header_main">
         <div class="head_description">
-            {% if current_user.id not in course.students %}
-                <div class="psevdTop">
-                    <!--Кнопка для отправки запроса на запись-->
-                        <button class="append">
-                            Записаться!
-                        </button>
-                </div>
-                <!--Название курса-->
-                <h1>
-                    {{course.name}}
-                </h1>
-            {% else %}
-                <h1>
-                    {{course.name}}
-                </h1>
+            <div class="psevdTop">
+            </div>
+            <!--Название курса-->
+            <h1>
+                {{course.name}}
+            </h1>
+            {% if (current_user.id not in course.students) and current_user.role == "Студент"  %}
                 <div class="psevdBot">
                     <!--Статус записи-->
-                    <div class="status">Вы успешно записаны
-                        на курс
+                    <div class="status btn_to_write">
+                        <a>Записаться</a>
                     </div>
                 </div>
+{#            {% else %}#}
+{#                 <div class="psevdBot">#}
+{#                    <div class="status">Вы успешно записаны#}
+{#                        на курс#}
+{#                    </div>#}
+{#                </div>#}
             {% endif %}
         </div>
     </div>
@@ -48,7 +48,6 @@
                 </p>
 
                 <div class="Where">
-
                     <div class="infoGroup">
                         <span class="WhereElem">
                             Лекции:
@@ -57,22 +56,25 @@
                             Текст - номер аудтории.
                         Если онлайн, то ссылка на тимс, текст "Teams"-->
                         {% for temp in course.lectures_auds %}
-                            <a class="WhereElem" href="#">
-                                {{ temp.name }}
-                            </a>
+                            {% if 'teams.microsoft.com' in temp.name  %}
+                                <a class="WhereElem aud_link" href="{{ temp.name }}">
+                                    Teams
+                                </a>
+                            {% else %}
+                                <a class="WhereElem aud_link" href="#">
+                                    {{ temp.name }}
+                                </a>
+                            {% endif %}
                         {% endfor %}
                     </div>
                 </div>
             </div>
-
             <div class="CourseTeachers">
-
-
                     <h2 class="CourseTitle">
                         Преподаватели
                     </h2>
                     {% block teachers %}
-                        {% for teacher in course.teachers %}
+                        {% for teacher in course.teachers  %}
                             <div class="teacher">
                                 <div class="teacherTitle">
                                     <!--Имя препода -->
@@ -80,10 +82,9 @@
                                 </div>
                                 <!--Должность препода -->
                                 <p class="CourseP">
-                                    {{ teacher.role }}
+                                    {{ teacher.description }}
                                 </p>
                                 <div class="contact">
-
                                     <!-- Почта препода-->
                                     <div class="eMail">
                                         {{ teacher.email }}
@@ -94,15 +95,17 @@
                     {% endblock %}
             </div>
             <div class="crossing">
-                <h2 class="CourseTitle">
-                    Пересечения
-                </h2>
                 <!-- Текст пересечения-->
-                <p class="CourseP">
-                    Знания, полученные в ходе прохождения этого
-                    курса, могут пригодится
-                    в следующих: {{', '.join(course.links | map(attribute='name') | list)}}.
-                </p>
+                {% if course.links %}
+                    <h2 class="CourseTitle">
+                        Пересечения
+                    </h2>
+                    <p class="CourseP">
+                        Знания, полученные в ходе прохождения этого
+                        курса, могут пригодится
+                        в следующих: {{', '.join(course.links | map(attribute='name') | list)}}.
+                    </p>
+                {% endif %}
             </div>
         </div>
         <div class="RightSide">
@@ -138,5 +141,6 @@
 {% block scripts %}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="{{ url_for('static', filename='js/courses/LessonPage.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/courses/lessons.js') }}"></script>
     <script src="{{ url_for('static', filename='js/courses/button_handler.js') }}"></script>
 {% endblock %}
