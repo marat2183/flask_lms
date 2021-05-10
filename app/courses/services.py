@@ -84,11 +84,12 @@ def get_user_courses(id):
 def join_to_course(user_id, course_id):
     try:
         Course.objects(id=course_id).update_one(push__students=user_id)
+        return True
     except OperationError:
-        pass
+        return False
     except:
-        pass
-    return True
+        return False
+
 
 
 

@@ -43,8 +43,8 @@ def user_courses():
 @login_required
 def add_to_course():
     course_id = request.form.get('course_id')
-    a = join_to_course(current_user.id, course_id)
-    if a:
+    status = join_to_course(current_user.id, course_id)
+    if status:
         data = {'status': 'success'}
         return jsonify(data)
     else:
