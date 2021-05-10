@@ -1,47 +1,41 @@
-{% extends 'courses/base.html' %}
-{% set active_page = "index" %}
-{% block title %}
-Запись на проект
-{% endblock %}
-{% block styles %}
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/courses/LessonPage.css') }}">
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/projects/project.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/courses/footer.css') }}">
-{% endblock %}
-{% block content %}
-    </header>
-    <div class="projects_container">
-        <div class="main-frame">
-            <div class="img-holder">
-                <img src="{{ url_for('static', filename='img/projects/proictis-bg.png') }}" alt="background"
-                     class="background-img">
+    <title>Запись на проект</title>
+</head>
+<body>
+    <div class="main-frame">
+        <div class="img-holder">
+            <img src="{{ url_for('static', filename='img/projects/proictis-bg.png') }}" alt="background"
+                 class="background-img">
+        </div>
+        <div class="form-container">
+            <div class="header">
+                <h1 class="sign-in-header">Запись на проект</h1>
+                <a href="{{ url_for('main.index') }}" class="home-link">На главную</a>
             </div>
-            <div class="form-container">
-                <div class="header">
-                    <h1 class="sign-in-header">Запись на проект</h1>
-                    <a href="#home" class="home-link">На главную</a>
+            <form action="" class="sign-in-form">
+                <div class="form-item">
+                    <select id="project-select" class="form-select" size="1">
+                        <option value="project-1">Проект-1</option>
+                        <option value="project-2">Проект-2</option>
+                        <option value="project-3">Проект-3</option>
+                        <option value="project-4">Проект-4</option>
+                        <option value="project-5">Проект-5</option>
+                    </select>
                 </div>
-                <form action="" class="sign-in-form">
-                    <div class="form-item">
-                        <select id="project-select" class="form-select" size="1">
-                            <option value="project-1">Проект-1</option>
-                            <option value="project-2">Проект-2</option>
-                            <option value="project-3">Проект-3</option>
-                            <option value="project-4">Проект-4</option>
-                            <option value="project-5">Проект-5</option>
-                        </select>
-                    </div>
-                    <div class="form-item">
-                        <input id="password-input" type="password" class="form-input" placeholder="Пароль">
-                    </div>
-                    <div class="form-item">
-                        <button type="submit" class="form-button">Записаться</button>
-                    </div>
-                </form>
-            </div>
+                <div class="form-item">
+                    <input id="password-input" type="password" class="form-input" placeholder="Пароль">
+                </div>
+                <div class="form-item">
+                    <button type="submit" class="form-button">Записаться</button>
+                </div>
+            </form>
         </div>
     </div>
-{% endblock %}
-{% block scripts %}
-
-{% endblock %}
+</body>
+</html>

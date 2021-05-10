@@ -31,8 +31,12 @@
                                 <li><a href="{{ url_for('courses.user_courses') }}" class="header_link {{ 'active_link' if
                                 active_page=='courses' or active_page=='active_courses' else ''}}">Список
                                     предметов</a></li>
-                                <li><a href="{{ url_for('projects.index') }}" class="header_link">Запись на
+                                <li><a href="{{ url_for('projects.index') }}" class="header_link {{ 'active_link' if
+                                active_page=='projects' else ''}}">Запись на
                                     проект</a></li>
+{#                                {% if current_user.role == "Администратор" %}#}
+{#                                    <li><a href="{{ url_for('course.index_view') }}" class="header_link">Админ панель</a></li>#}
+{#                                {% endif %}#}
                                 {% if current_user.is_authenticated %}
                                     <li><a href="{{ url_for('auth.logout') }}" class="header_link">Выйти</a></li>
                                 {% else %}
@@ -51,10 +55,12 @@
             <div class="footer_container">
                 <h1 class="footer_title">Карта сайта</h1>
                 <div class="footer_items">
-                    <a href="" class="footer_nav">главная</a>
-                    <a href="lessons.html" class="footer_nav">список предметов</a>
-                    <a href="" class="footer_nav">запись на проект </a>
-                    <a href="" class="footer_nav">выход</a>
+                    <a href="{{ url_for('main.index') }}" class="footer_nav">главная</a>
+                    <a href="{{ url_for('courses.user_courses') }}" class="footer_nav">список предметов</a>
+                    <a href="{{ url_for('projects.index') }}" class="footer_nav">запись на проект </a>
+                    {% if current_user.is_authenticated %}
+                        <a href="{{ url_for('auth.logout') }}" class="footer_nav">выход</a>
+                    {% endif %}
                 </div>
             </div>
 

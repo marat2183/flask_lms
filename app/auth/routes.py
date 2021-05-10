@@ -90,4 +90,4 @@ def display_info():
 
 @login_manager.unauthorized_handler
 def unauthorized_callback():
-    return redirect(url_for('auth.index'))
+    return redirect(url_for('auth.oidc'))

@@ -13,7 +13,8 @@
                 <div class="dropdown-menu dropdown-menu-right">
                     <span class="dropdown-item user_role">{{ current_user.role }}</span>
                     <div class="dropdown-divider"></div>
-                    <a href="/auth/logout"class="dropdown-item">Выход</a>
+                    <a href="{{ url_for('main.index') }}" class="dropdown-item">Главная страница</a>
+                    <a href="{{ url_for('auth.logout') }}"class="dropdown-item">Выход</a>
                 </div>
         </li>
     </ul>
