@@ -27,9 +27,14 @@ class CKEditorField(TextAreaField):
 class FilteredByRoleAjaxModelLoader(QueryAjaxModelLoader):
     def get_list(self, term, offset=0, limit=DEFAULT_PAGE_SIZE):
         role = self.filter_by_role
-        return (
-            self.model.objects(role=role)
-        )
+        if term:
+            return (
+                self.model.objects(role=role, fullname____icontains=term)
+            )
+        else:
+            return (
+                self.model.objects(role=role)
+            )
 
     def __init__(self, name, model, **options):
         super(FilteredByRoleAjaxModelLoader, self).__init__(name, model, **options)

@@ -3,7 +3,7 @@ from app.models import Course
 from mongoengine.errors import OperationError
 
 
-def get_courses_by_id(id) -> Course:
+def get_courses_by_id(id) -> dict:
     try:
         courses = Course.objects().aggregate(
         [
@@ -53,12 +53,12 @@ def get_courses_by_id(id) -> Course:
                 }
             }
         ]
-    )
+        )
         return list(courses)[0]
     except OperationError:
-        pass
+        return dict()
     except:
-        pass
+        return dict()
 
 
 def get_courses_able_to_join(id):
@@ -66,9 +66,9 @@ def get_courses_able_to_join(id):
         courses = Course.objects(students__nin=[id])
         return list(courses)
     except OperationError:
-        pass
+        return []
     except:
-        pass
+        return []
 
 
 def get_user_courses(id):
@@ -76,9 +76,9 @@ def get_user_courses(id):
         courses = Course.objects(students__in=[id])
         return list(courses)
     except OperationError:
-        pass
+        return []
     except:
-        pass
+        return []
 
 
 def join_to_course(user_id, course_id):
