@@ -63,7 +63,7 @@ def get_courses_by_id(id) -> dict:
 
 def get_courses_able_to_join(id):
     try:
-        courses = Course.objects(students__nin=[id])
+        courses = Course.objects(students__nin=[id], archived=False)
         return list(courses)
     except OperationError:
         return []
@@ -73,7 +73,7 @@ def get_courses_able_to_join(id):
 
 def get_user_courses(id):
     try:
-        courses = Course.objects(students__in=[id])
+        courses = Course.objects(students__in=[id], archived=False)
         return list(courses)
     except OperationError:
         return []

@@ -228,6 +228,9 @@ class CourseView(MyModelAdminTeacherView):
         'course_type': {
             'label': 'Тип'
         },
+        'archived': {
+            'label': 'Архивировать'
+        },
 
     }
 
@@ -307,7 +310,7 @@ class CourseView(MyModelAdminTeacherView):
 
     def get_query(self):
         if current_user.role == "Преподаватель":
-            courses = Course.objects(teachers=ObjectId(current_user.id))
+            courses = Course.objects(teachers=ObjectId(current_user.id),archived=False)
         else:
             courses = Course.objects()
         return courses

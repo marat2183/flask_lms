@@ -93,6 +93,7 @@ def load_user(_id):
 
 
 class Course(db.Document):
+    archived = db.BooleanField()
     name = db.StringField()
     course_type = db.StringField(choices=["Технический", "Гуманитарный", "Программирование и т.п"])
     students = db.ListField(db.ReferenceField(User, reverse_delete_rule=PULL))
