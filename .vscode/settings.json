@@ -1,0 +1,7 @@
+{
+    "python.pythonPath": "C:\\Users\\ryabu\\AppData\\Local\\Microsoft\\WindowsApps\\python3.9.exe",
+    "python.linting.mypyEnabled": false,
+    "python.linting.flake8Enabled": true,
+    "python.linting.enabled": true,
+    "python.formatting.provider": "black"
+}

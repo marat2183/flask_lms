@@ -22,7 +22,7 @@ a.bg-dark:focus{
     color: #444;
 }
 .dropdown-item:active{
-    background-color: #B111EA;
+    /* background-color: #B111EA; */
 }
 .nav_tabs .nav-item{
     color: #B111EA;

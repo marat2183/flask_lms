@@ -52,7 +52,8 @@ def authorized():
 
         user.email = profile_data['mail']
         user.fullname = profile_data['displayName']
-        if profile_data['mail'] == 'grigoryan@sfedu.ru' or profile_data['mail'] == 'ryabuhin@sfedu.ru':
+
+        if current_app.config.get('ADMIN_EMAIL') == profile_data['mail']:
             user.role = 'Администратор'
         else:
             user.role = 'Студент'
@@ -61,6 +62,8 @@ def authorized():
         user.save()
 
         login_user(user, remember=True)
+
+        # TODO добавить константы, чтобы можно было использовать их вместо захардкоденной строки ("Студент"/"Преподователь")
 
         next_url = request.args.get('next')
         if next_url is None or not next_url.startswith('/'):

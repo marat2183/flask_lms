@@ -48,6 +48,8 @@ class Config(object):
     SESSION_COOKIE_SECURE = os.environ.get('SESSION_COOKIE_SECURE', False)
     # PERMANENT_SESSION_LIFETIME = os.environ.get('PERMANENT_SESSION_LIFETIME', 60*60*24*7)
 
+    ADMIN_EMAIL = os.environ.get('ADMIN_EMAIL')
+
     AZURE_CLIENT_ID = os.environ.get('AZURE_CLIENT_ID')
     AZURE_CLIENT_SECRET = os.environ.get('AZURE_CLIENT_SECRET')
     AZURE_TENANT_NAME = os.environ.get('AZURE_TENANT_NAME')
