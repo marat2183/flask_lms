@@ -48,11 +48,17 @@ class Config(object):
     SESSION_COOKIE_SECURE = os.environ.get('SESSION_COOKIE_SECURE', False)
     # PERMANENT_SESSION_LIFETIME = os.environ.get('PERMANENT_SESSION_LIFETIME', 60*60*24*7)
 
+    ADMIN_EMAIL = os.environ.get('ADMIN_EMAIL')
+
     AZURE_CLIENT_ID = os.environ.get('AZURE_CLIENT_ID')
     AZURE_CLIENT_SECRET = os.environ.get('AZURE_CLIENT_SECRET')
     AZURE_TENANT_NAME = os.environ.get('AZURE_TENANT_NAME')
     AZURE_TENANT_ID = os.environ.get('AZURE_TENANT_ID')
     AZURE_API_BASE_URL = os.environ.get('AZURE_API_BASE_URL') or 'https://graph.microsoft.com/v1.0/'
+
+    ICTIS_API_URL = os.environ.get('ICTIS_API_URL')
+    ICTIS_API_LOGIN = os.environ.get('ICTIS_API_LOGIN')
+    ICITS_API_PASSWORD = os.environ.get('ICITS_API_PASSWORD')
 
     @classmethod
     def init_app(cls, app):
