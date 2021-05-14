@@ -154,6 +154,8 @@ a:active {
     margin-bottom: 20px;
     text-transform: uppercase;
     text-align: center;
+    width: 100%;
+    word-break: break-word;
     /*max-width: 553px;*/
 }
 
