@@ -1,0 +1,138 @@
+body {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.container {
+    margin-top: 200px;
+}
+
+.carousel {
+    overflow: hidden;
+    width: 889px;
+    max-width: 936px;
+    position: relative;
+}
+
+.carousel .carousel__item,
+.carousel .carousel__item--hidden {
+    display: none;
+}
+
+.carousel .carousel__item p {
+    width: 100%;
+    max-width: 936px;
+    height: auto;
+}
+
+.carousel .carousel__item--visible {
+    display: block;
+    animation: fadeVisibility 0.5s;
+}
+
+.carousel .carousel__actions {
+    display: flex;
+    justify-content: left;
+    height: 100px;
+    margin-left: 10px;
+    margin-top: 64px
+}
+
+.carousel .carousel__actions .carousel__button {
+    width: 36px;
+    height: 36px;
+    cursor: pointer;
+    border: none;
+    border-radius: 6px;
+    background-color: #D4D4D4;
+    margin-right: 30px;
+    transform: rotate(45deg);
+
+}
+
+.carousel .carousel__actions .carousel__button:last-child {
+    margin-right: 0;
+}
+
+.carousel .carousel__actions .carousel__button--active {
+    background-color: #B111EA;
+}
+
+.carousel .carousel__actions .carousel__button:hover {
+    background-color: #B111EA;
+    transition: 0.5s ease;
+}
+
+.carousel .carousel__item .carousel__text {
+    font-size: 64px;
+    line-height: 75px;
+    font-family: Roboto, -apple-system, Ubuntu, 'Open Sans', sans-serif;
+    text-transform: uppercase;
+    font-weight: 500;
+    text-decoration: none;
+    color: #000;
+}
+
+.carousel .carousel__item .carousel__text:visited {
+    color: #000;
+}
+
+.container .home-link {
+    font-family: Roboto, -apple-system, Ubuntu, 'Open Sans', sans-serif;
+    font-size: 18px;
+    line-height: 21px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    font-weight: 400;
+    margin-bottom: 64px;
+    color: black;
+}
+
+.container .home-link:visited {
+    color: #000;
+}
+
+@keyframes fadeVisibility {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+        transform: opacity linear;
+    }
+}
+
+@media (max-width: 1024px) {
+    .container .home-link {
+        font-size: 13px;
+        line-height: 15px;
+        margin-right: 38px;
+    }
+
+    .carousel .carousel__item .carousel__text {
+        font-size: 28px;
+        line-height: 32px;
+    }
+
+    .carousel {
+        width: 100vw;
+        margin-left: 38px;
+    }
+
+    .carousel .carousel__actions .carousel__button {
+        width: 14px;
+        height: 14px;
+        border-radius: 3px;
+    }
+
+    .carousel .carousel__actions {
+        margin-top: 38px;
+    }
+
+    .container .home-link {
+        margin-bottom: 38px;
+    }
+}

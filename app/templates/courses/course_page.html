@@ -22,19 +22,23 @@
             <h1>
                 {{course.name}}
             </h1>
-            {% if (current_user.id not in course.students) and current_user.role == "Студент"  %}
-                <div class="psevdBot">
-                    <!--Статус записи-->
-                    <div class="status btn_to_write">
-                        <a>Записаться</a>
+            {% if course.students  %}
+                {% if (current_user.id not in course.students) and current_user.role ==
+                        "Студент"  %}
+                    <div class="psevdBot">
+                        <!--Статус записи-->
+                        <div class="status btn_to_write">
+                            <a>Записаться</a>
+                        </div>
                     </div>
+                {% endif %}
+            {% elif current_user.role =="Студент" %}
+                <div class="psevdBot">
+                        <!--Статус записи-->
+                        <div class="status btn_to_write">
+                            <a>Записаться</a>
+                        </div>
                 </div>
-{#            {% else %}#}
-{#                 <div class="psevdBot">#}
-{#                    <div class="status">Вы успешно записаны#}
-{#                        на курс#}
-{#                    </div>#}
-{#                </div>#}
             {% endif %}
         </div>
     </div>

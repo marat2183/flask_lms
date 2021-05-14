@@ -164,6 +164,7 @@ a:active {
     justify-content: space-between;
     align-items: center;
     min-width: 550px;
+    padding-left: 10px;
 }
 
 .psevdTop::before{
@@ -457,7 +458,23 @@ a:active {
     transition: max-height 0.2s ease-out;
 }
 
+.status {
+    margin-top: 20px;
+    cursor: pointer;
+    text-decoration: underline;
+    margin-left: 20px;
+}
+
 @media screen and (min-width:100px) and (max-width:1024px) {
+
+    .CourseP, .WhereElem, .teacherTitle,
+      .themePar, .status{
+        font-size: calc(15px + (16 + 16 * 0.7) * ((100vw - 320px) / 910));
+      }
+    .head_description>h1{
+          font-size: calc(25px + (16 + 16*0.7)*((100vw - 320px)/910));
+          margin: 20px 0 0 0;
+      }
     .AboutCourse{
         flex-direction: column;
         margin: 0;
@@ -559,14 +576,12 @@ a:active {
           margin-top: 50px;
       }
 
-      .head_description>h1{
-          font-size: 38px;
-          margin: 0;
-      }
+      
 
       .psevdTop,
       .psevdBot{
           min-width: 200px;
+          text-align: left;
       }
 
       .psevdBot::before{
@@ -587,10 +602,7 @@ a:active {
 
 
 
-      .CourseP, .WhereElem, .teacherTitle,
-      .themePar, .status{
-          font-size: 15px;
-      }
+      
       .CourseTitle{
           font-size: 30px;
       }
@@ -711,6 +723,7 @@ a:active {
 
     .header_menu.active {
         top: 0;
+        padding-left: 15px;
     }
 
     .header_list {

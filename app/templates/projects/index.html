@@ -20,10 +20,7 @@
             </div>
             <form action="" class="sign-in-form">
                 <div class="form-item">
-                    <input type="text" placeholder="ФИО" class="form-input" disabled value={{ user.fullname }}>
-                </div>
-                <div class="form-item">
-                    <input type="text" placeholder="Учебная группа" class="form-input" disabled value={{ user.group }}>
+                    <input type="text" placeholder="ФИО" class="form-input" disabled value="{{ user.fullname }}">
                 </div>
                 <div class="form-item">
                     <input type="email" placeholder="Электронная почта" class="form-input" disabled value={{ user.email }}>
