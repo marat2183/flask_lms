@@ -31,7 +31,6 @@ services:
     env_file: .mongo.env
     volumes:
       - ./docker/mongo/init-mongo.sh:/docker-entrypoint-initdb.d/init-mongo.sh
-      # - ./docker/mongo/init-db.js:/docker-entrypoint-initdb.d/init-db.js
       - mongodata:/data/db
       - mongoconfig:/data/configdb
     ports:

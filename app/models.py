@@ -1,11 +1,13 @@
 import mongoengine as db
 from flask_login import UserMixin
-from flask import url_for
+from flask import url_for, current_app
 from jinja2 import Markup
 from flask_admin.form import DatePickerWidget
 from flask_admin.form.widgets import DatePickerWidget
 from mongoengine import CASCADE, PULL
-
+from mongoengine import signals
+import requests
+import os
 
 def fetch_azure_token(request):
     token = OAuth2Token.objects(name='azure', user=request.user)
@@ -86,6 +88,27 @@ class User(UserMixin, db.Document):
     def get_id(self):
         return str(self.pk)
 
+    @classmethod
+    def post_save(cls, sender, document, **kwargs):
+        if document.role == 'Студент':
+            response = requests.get(
+                os.environ.get('ICTIS_API_URL'),
+                auth=(os.environ.get('ICTIS_API_LOGIN'), os.environ.get('ICTIS_API_PASSWORD')),
+                params={'email': document.email}
+            )
+            response.raise_for_status()
+            data = response.json().get('student')
+            if not data:
+                return
+            group = 'КТ{}{}-{}{}'.format(
+                data['levelLearn'][0].lower(),
+                data['formLearn'][0].lower(),
+                data['grade'],
+                data['stGroup']
+            )
+            Group.objects(name=group).update(set__name=group, upsert=True)
+            document.group = Group.objects.get(name=group)
+
 
 def load_user(_id):
     user = User.objects(pk=_id).first()
@@ -107,3 +130,35 @@ class Course(db.Document):
 
     def __unicode__(self):
         return self.name
+
+
+class ProjectTeam(db.EmbeddedDocument):
+    members = db.ListField(db.ReferenceField(User))
+    empty_slots = db.IntField(max_value=8)
+    is_full = db.BooleanField(default=False)
+
+class Project(db.Document):
+    name = db.StringField(required=True, max_length=255)
+    link = db.StringField(required=True)
+    disabled = db.BooleanField(required=True, default=False)
+    disabledForJoin = db.BooleanField(default=False)
+    teams = db.EmbeddedDocumentListField(ProjectTeam)
+
+    def get_id(self):
+        return self.pk
+
+    def __unicode__(self):
+        return self.name
+
+    @classmethod
+    def post_save(cls, sender, document, **kwargs):
+        for team in document.teams:
+            team.empty_slots = 8 - len(team.members)
+            if team.empty_slots == 0:
+                team.is_full = True
+
+        if all(team.is_full for team in document.teams):
+            document.disabledForJoin = True
+
+signals.post_save.connect(Project.post_save, sender=Project)
+signals.post_save.connect(User.post_save, sender=User)

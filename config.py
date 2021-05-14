@@ -56,6 +56,10 @@ class Config(object):
     AZURE_TENANT_ID = os.environ.get('AZURE_TENANT_ID')
     AZURE_API_BASE_URL = os.environ.get('AZURE_API_BASE_URL') or 'https://graph.microsoft.com/v1.0/'
 
+    ICTIS_API_URL = os.environ.get('ICTIS_API_URL')
+    ICTIS_API_LOGIN = os.environ.get('ICTIS_API_LOGIN')
+    ICITS_API_PASSWORD = os.environ.get('ICITS_API_PASSWORD')
+
     @classmethod
     def init_app(cls, app):
         pass

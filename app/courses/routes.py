@@ -1,5 +1,5 @@
 from . import bp as courses_bp
-from flask import render_template, request, session,jsonify, url_for
+from flask import render_template, request, session, jsonify, url_for
 from flask_login import login_required, current_user
 from .services import *
 
