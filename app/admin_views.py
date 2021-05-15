@@ -53,7 +53,7 @@ class MyModelAdminView(ModelView):
         elif current_user.is_authenticated and current_user.role == 'Студент':
             return redirect(url_for('courses.index'))
         else:
-            return redirect(url_for('auth.index'))
+            return redirect(url_for('auth.oidc'))
 
 
 class MyModelTeacherView(ModelView):
@@ -65,7 +65,7 @@ class MyModelTeacherView(ModelView):
     def inaccessible_callback(self, name, **kwargs):
         if current_user.is_authenticated:
             return redirect(url_for('courses.index'))
-        return redirect(url_for('auth.index'))
+        return redirect(url_for('auth.oidc'))
 
 
 class MyModelAdminTeacherView(ModelView):
@@ -78,7 +78,7 @@ class MyModelAdminTeacherView(ModelView):
     def inaccessible_callback(self, name, **kwargs):
         if current_user.is_authenticated:
             return redirect(url_for('courses.index'))
-        return redirect(url_for('auth.index'))
+        return redirect(url_for('auth.oidc'))
 
     @property
     def can_create(self):
@@ -105,7 +105,7 @@ class MyAdminIndexView(AdminIndexView):
     def inaccessible_callback(self, name, **kwargs):
         if current_user.is_authenticated:
             return redirect(url_for('courses.index'))
-        return redirect(url_for('auth.index'))
+        return redirect(url_for('auth.oidc'))
 
     @expose('/')
     def index(self):
