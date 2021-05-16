@@ -70,7 +70,7 @@ def authorized():
             if current_user.role == 'Администратор' or current_user.role == 'Преподаватель':
                 next_url = url_for('course.index_view')
             else:
-                next_url = url_for('courses.index')
+                next_url = url_for('courses.user_courses')
         return redirect(next_url)
     except MultipleObjectsReturned:
         # TODO добавить какую-нибудь обработку
@@ -82,7 +82,7 @@ def authorized():
     login_user(user, remember=True)
     if current_user.role == 'Администратор' or current_user.role == 'Преподаватель':
         return redirect(url_for('course.index_view'))
-    return redirect(url_for('courses.index'))
+    return redirect(url_for('courses.user_courses'))
 
 
 @auth.route('/display-info')

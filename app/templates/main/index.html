@@ -1,16 +1,35 @@
-{% extends 'courses/base.html' %}
-{% set active_page = "index" %}
-{% block title %}
-Главная
-{% endblock %}
-{% block styles %}
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/courses/menu.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/courses/footer.css') }}">
-{% endblock %}
-{% block content %}
-    </header>
-    <h1>Hello World</h1>
-{% endblock %}
-{% block scripts %}
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+     <meta charset="UTF-8">
+     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>Главная страница</title>
+     <link rel="stylesheet" href="{{ url_for('static', filename='css/main/main-page.css') }}">
+ </head>
+ <body>
+    <main class="container">
+        {% if not current_user.is_authenticated %}
+            <a href="{{ url_for('auth.oidc') }}" class="home-link">Авторизоваться</a>
+        {% else %}
+            <a href="{{ url_for('auth.logout') }}" class="home-link">Выйти</a>
+        {% endif %}
+        <div class="carousel">
+            <div class="carousel__item carousel__item--visible">
+                <a href="{{ url_for('courses.user_courses') }}" class="carousel__text">список предметов</a>
+            </div>
+            <div class="carousel__item">
+                <a href="{{ url_for('projects.index') }}" class="carousel__text">творческие проекты</a>
+            </div>
+            
 
-{% endblock %}
+            <div class="carousel__actions">
+                <button class="carousel__button carousel__button--active" id="carousel__button--fisrt" aria-label="first slide"></button>
+                <button class="carousel__button" id="carousel__button--second" aria-label="second slide"></button>
+                
+            </div>
+        </div>    
+    </main> 
+    <script src="{{ url_for('static', filename='js/main/main-page.js') }}"></script>
+ </body>
+ </html>
