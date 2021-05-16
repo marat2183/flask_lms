@@ -11,8 +11,6 @@ docker/
 flask_session/
 /nginx
 /mongo
-
-
 /node_modules
 
 # https://github.com/github/gitignore/blob/master/Global/macOS.gitignore
@@ -96,6 +94,12 @@ coverage.xml
 *.cover
 .hypothesis/
 
+# PyTest
+.pytest_cache/
+
+# VSCode Local History Extension
+.history/
+
 # Translations
 *.mo
 *.pot
@@ -131,6 +135,7 @@ celerybeat-schedule
 
 # Environments
 .env
+.mongo.env
 .env.dev
 .env.prod
 .venv
