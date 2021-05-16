@@ -14,7 +14,7 @@ def required_json_arguments(view_func):
             if arg.name in kwargs:
                 continue
             if data and data.get(arg.name) is not None:
-                kwargs[args.name] = data.get(arg.name)
+                kwargs[arg.name] = data.get(arg.name)
             elif arg.default is not arg.empty:
                 kwargs[arg.name] = arg.default
 
@@ -24,6 +24,8 @@ def required_json_arguments(view_func):
             return 'No data provided for required arguments: {}'.format(
                 ', '.join(missing)
             ), 400
+        return view_func(*args, **kwargs)
+    return decorator
 
 ResponseData = Union[
     Dict[
