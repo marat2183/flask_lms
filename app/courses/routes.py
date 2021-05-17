@@ -1,5 +1,5 @@
 from . import bp as courses_bp
-from flask import render_template, request, session, jsonify, url_for
+from flask import render_template, request, session, jsonify, url_for, abort
 from flask_login import login_required, current_user
 from .services import *
 
@@ -18,6 +18,8 @@ def index():
         course_id = request.args.get('id')
         if course_id:
             course = get_courses_by_id(course_id)
+            if course is None:
+                return abort(404)
             return render_template(template_name_or_list='courses/course_page.html', course=course, icons=icons)
         else:
             courses = get_courses_able_to_join(current_user.id)

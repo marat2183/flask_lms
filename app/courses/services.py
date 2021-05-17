@@ -1,9 +1,10 @@
 from bson.objectid import ObjectId
 from app.models import Course
-from mongoengine.errors import OperationError
+from mongoengine.errors import OperationError, ValidationError
+from bson.errors import InvalidId
 
 
-def get_courses_by_id(id) -> dict:
+def get_courses_by_id(id):
     try:
         courses = Course.objects().aggregate(
         [
@@ -54,7 +55,13 @@ def get_courses_by_id(id) -> dict:
             }
         ]
         )
-        return list(courses)[0]
+        results =  list(courses)
+        if results:
+            return results[0]
+        else:
+            return None
+    except (InvalidId, ValidationError):
+        return None
     except OperationError:
         return dict()
     except:

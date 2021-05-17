@@ -25,7 +25,7 @@ def index():
 @login_required
 def projects_get(id: str):
     try:
-        doc = Project.objects(id=id).first()
+        doc = Project.objects.get(id=id)
         return success('found', data=json.loads(doc.to_json()))
     except DoesNotExist:
         return error(f'Project with ID {id} does not exist', status_code=404)
@@ -43,11 +43,8 @@ def get_project_by_name(query: str):
 @projects.route('/api/available', methods=['GET'])
 @login_required
 def check_project_availability():
-    try:
-        docs = Project.objects.filter(disabledForJoin=False)
-        return success('available', data=[json.loads(d.to_json()) for d in docs])
-    except DoesNotExist:
-        return error('No project with such ID', status_code=404)
+    docs = Project.objects.filter(disabledForJoin=False).exclude('teams.members')
+    return success('available', data=[json.loads(d.to_json()) for d in docs])
 
 @projects.route('/api/<id>/join', methods=['POST'])
 @required_json_arguments

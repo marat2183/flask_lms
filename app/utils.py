@@ -27,6 +27,32 @@ def required_json_arguments(view_func):
         return view_func(*args, **kwargs)
     return decorator
 
+
+def required_query_params(view_func):
+    @wraps(view_func)
+    def decorated_view(*args, **kwargs):
+        signature = inspect.signature(view_func)
+
+        params = request.args
+
+        for arg in signature.parameters.values():
+            if arg.name in kwargs:
+                continue
+            if params and params.get(arg.name) is not None:
+                kwargs[arg.name] = params.get(arg.name)
+            elif arg.default is not arg.empty:
+                kwargs[arg.name] = arg.default
+
+        missing = [arg for arg in signature.parameters.keys() if arg not in kwargs.keys()]
+
+        if missing:
+            return 'Missing required query parameters: {}'.format(
+                ', '.join(missing)
+            ), 400
+        return view_func(*args, **kwargs)
+    return decorated_view
+
+
 ResponseData = Union[
     Dict[
         str,
