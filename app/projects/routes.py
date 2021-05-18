@@ -9,6 +9,7 @@ from .sheets import sheets_team_add_member
 from app.models import Project, User
 from app.utils import required_json_arguments
 from mongoengine import DoesNotExist
+from app.projects.services import get_project_table
 from mongoengine import signals
 import json
 
@@ -67,3 +68,10 @@ def join_project(id: str, team_number: str):
             return error('Update failed due to an unknown database error', status_code=500)
     except DoesNotExist:
         return error(f'No project with ID {id}', status_code=404)
+
+
+@projects.route('/table', methods=['GET'])
+@login_required
+def get_table():
+    data = get_project_table()
+    return render_template('projects/project_table.html', data=data)

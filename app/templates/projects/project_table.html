@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/projects/main.css') }}">
+    <title>Document</title>
+</head>
+
+
+    <div class="table">
+        {% for temp in data %}
+            <div class="container col">
+
+                <!-- шапка с информацией о преподавателе и темах -->
+                <section class="table-head">
+                        <div class="row">
+                            <div class="cell">
+                                {{temp.mentor}}
+                            </div>
+                        </div>
+                        <div class="row">
+                            {% for project in temp.projects %}
+                                <div class="cell">
+                                    {{ project.name }}
+                                </div>
+                            {% endfor %}
+                        </div>
+{#                        <div class="row">#}
+{#                            <div class="cell">#}
+{#                                {{ temp.mentor }}#}
+{#                            </div>#}
+{#                        </div>#}
+                </section>
+                    <!-- конец шапки -->
+                    <!-- информация о командах -->
+                <div class="row">
+                    {% for project in temp.projects %}
+                            <div class="col">
+                                    {% for t in project.members %}
+                                        <div class="cell">Команда {{loop.index}}</div>
+                                          {% for member in t.teams.members %}
+                                              <div class="cell">{{member.fullname}}</div>
+                                          {% endfor %}
+                                        {% set need_to_add = 8 - t.teams.members|length %}
+                                        {% for i in range(need_to_add) %}
+                                            <div class="cell">Пусто</div>
+                                        {% endfor %}
+                                    {% endfor %}
+                                    {% if  project.members|length != 3%}
+                                        {% for j in range( 3 - project.members|length ) %}
+                                            <div class="cell">Команда {{ j + project.members|length + 1 }}</div>
+                                            {% for i in range(8) %}
+                                                <div class="cell">Пусто</div>
+                                            {% endfor %}
+                                        {% endfor %}
+                                    {% endif %}
+                            </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</body>
+
+</html>
