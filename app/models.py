@@ -70,6 +70,7 @@ class OAuth2Token(db.EmbeddedDocument):
 
 class User(UserMixin, db.Document):
     active = db.BooleanField(default=True)
+    is_mentor = db.BooleanField(default=False)
     azure_oid = db.UUIDField(binary=False)
 
     token = db.EmbeddedDocumentField(OAuth2Token)
@@ -146,6 +147,7 @@ class ProjectTeam(db.EmbeddedDocument):
     is_full = db.BooleanField(default=False)
 
 class Project(db.Document):
+    mentor = db.ReferenceField(User, reverse_delete_rule=PULL)
     name = db.StringField(required=True, max_length=255)
     link = db.StringField(required=True)
     disabled = db.BooleanField(required=True, default=False)
@@ -166,7 +168,7 @@ class Project(db.Document):
             if team.empty_slots == 0:
                 team.is_full = True
 
-        if len(p.teams) == 3 and all(team.is_full for team in document.teams):
+        if len(document.teams) == 3 and all(team.is_full for team in document.teams):
             document.disabledForJoin = True
 
 signals.post_save.connect(Project.post_save, sender=Project)
