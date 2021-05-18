@@ -76,7 +76,6 @@ class User(UserMixin, db.Document):
     token = db.EmbeddedDocumentField(OAuth2Token)
 
     role = db.StringField(choices=["Студент", "Преподаватель", "Администратор"])
-
     email = db.EmailField(allow_utf8_user=True)
 
     fullname = db.StringField()

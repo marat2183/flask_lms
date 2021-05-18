@@ -1,0 +1,50 @@
+* {
+    font: 14px/14px sans-serif
+}
+
+.container {
+    width: 100%;
+    overflow-x: hidden;
+}
+
+.row,
+.col {
+    display: flex;
+    flex-grow: 1;
+    width: 100%;
+    flex-shrink: 1;
+    flex-grow: 1;
+}
+
+.row {
+    flex-direction: row;
+}
+
+.col {
+    flex-direction: column;
+}
+
+.cell {
+    overflow-x: hidden;
+    border: 1px #000 solid;
+    width: 100%;
+    text-align: center;
+    box-sizing: border-box;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 5px;
+    padding-right: 5px;
+    text-overflow: ellipsis ;
+}
+
+.table-head {
+    background-color: #DDD9C3;
+}
+
+.anchor {
+    background-color: #EFEFEF;
+}
+
+.team-name {
+    background-color: #EFEFEF;
+}
