@@ -37,12 +37,27 @@
                         <button type="submit" class="form-button">Записаться</button>
                     </div>
                 {% else %}
-                    <h1 class="sign-in-header">Доступных для записи проектов нет!</h1>
+                    <div class="sign-in-footer">
+                        <h1 class="sign-in-header">Доступных для записи проектов нет!</h1>
+                    </div>
                 {% endif %}
             </form>
         </div>
     </div>
     <script>
+        async function postData(url, data) {
+            const response = await fetch(url, {
+                method: 'POST',
+                credentials: 'same-origin',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+            return await response.json();
+        }
+
+
         document.addEventListener('DOMContentLoaded', function() {
             let projectsSelect = document.querySelector('#project-select');
 

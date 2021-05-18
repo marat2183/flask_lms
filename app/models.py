@@ -6,6 +6,7 @@ from flask_admin.form import DatePickerWidget
 from flask_admin.form.widgets import DatePickerWidget
 from mongoengine import CASCADE, PULL
 from mongoengine import signals
+from bson import json_util
 import requests
 import os
 
@@ -88,9 +89,16 @@ class User(UserMixin, db.Document):
     def get_id(self):
         return str(self.pk)
 
+    def to_json(self, *args, **kwargs):
+        data = self.to_mongo()
+        data.pop('token', None)
+        return json_util.dumps(data)
+
     @classmethod
     def post_save(cls, sender, document, **kwargs):
         if document.role == 'Студент':
+            if not document.email:
+                return
             response = requests.get(
                 os.environ.get('ICTIS_API_URL'),
                 auth=(os.environ.get('ICTIS_API_LOGIN'), os.environ.get('ICTIS_API_PASSWORD')),
@@ -116,7 +124,7 @@ def load_user(_id):
 
 
 class Course(db.Document):
-    archived = db.BooleanField()
+    archived = db.BooleanField(default=False)
     name = db.StringField()
     course_type = db.StringField(choices=["Технический", "Гуманитарный", "Программирование и т.п"])
     students = db.ListField(db.ReferenceField(User, reverse_delete_rule=PULL))
@@ -134,7 +142,7 @@ class Course(db.Document):
 
 class ProjectTeam(db.EmbeddedDocument):
     members = db.ListField(db.ReferenceField(User))
-    empty_slots = db.IntField(max_value=8)
+    empty_slots = db.IntField(min_value=0, max_value=8, default=8)
     is_full = db.BooleanField(default=False)
 
 class Project(db.Document):
@@ -142,7 +150,8 @@ class Project(db.Document):
     link = db.StringField(required=True)
     disabled = db.BooleanField(required=True, default=False)
     disabledForJoin = db.BooleanField(default=False)
-    teams = db.EmbeddedDocumentListField(ProjectTeam)
+    teams = db.EmbeddedDocumentListField(ProjectTeam, max_length=3)
+
 
     def get_id(self):
         return self.pk
@@ -157,7 +166,7 @@ class Project(db.Document):
             if team.empty_slots == 0:
                 team.is_full = True
 
-        if all(team.is_full for team in document.teams):
+        if len(p.teams) == 3 and all(team.is_full for team in document.teams):
             document.disabledForJoin = True
 
 signals.post_save.connect(Project.post_save, sender=Project)
