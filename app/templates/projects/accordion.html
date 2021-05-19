@@ -53,9 +53,9 @@
                                                         <td>{{member.fullname}}</td>
                                                     </tr>
                                                 {% endfor %}
-                                                {% for i in range(t.teams.members|length, 8) %}
+                                                {% for i in range(8 - t.teams.members|length) %}
                                                     <tr>
-                                                        <th scope="row">{{ loop.index }}</th>
+                                                        <th scope="row">{{ t.teams.members|length + loop.index }}</th>
                                                         <td>Пусто</td>
                                                     </tr>
                                                 {% endfor %}
@@ -64,9 +64,9 @@
                                     </div>
                                 {% endfor %}
                                 {% if project.members|length != 3 %}
-                                    {% for j in range(project.members|length, 3 ) %}
+                                    {% for j in range(3 - project.members|length) %}
                                         <div class="col">
-                                            <table class="table">Команда {{ j + 1 }}
+                                            <table class="table">Команда {{ project.members|length + loop.index }}
                                                 <thead>
                                                     <tr>
                                                         <th scope="col">#</th>
