@@ -62,7 +62,7 @@ def get_project_table():
             )
             t = list(test)
             temp_dict = {}
-            temp_dict['name'] = t[0]['name']
+            temp_dict['name'] = project.name
             temp_dict['members'] = t
             temp['projects'].append(temp_dict)
         results.append(temp)

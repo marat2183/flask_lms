@@ -174,6 +174,9 @@ class StudentView(MyModelAdminView):
                   'placeholder': 'Введите описание',
             },
         },
+        'is_mentor': {
+            'label': 'Наставник'
+        },
     }
 
 
