@@ -18,7 +18,7 @@ import json
 @projects.route('/index')
 @login_required
 def index():
-    projects = Project.objects()
+    projects = Project.objects.filter(disabledForJoin=False).exclude('teams.members')
     return render_template('projects/index.html', projects=projects, user=current_user)
 
 

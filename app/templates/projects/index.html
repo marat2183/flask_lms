@@ -28,13 +28,15 @@
                 {% if projects %}
                     <div class="form-item">
                         <select id="project-select" class="form-select" size="1">
-                            {% for project in projects %}
-                                <option value="{{ project.id }}">{{ project.name }}</option>
-                            {% endfor %}
+                                <option value="" selected>Выберите проект...</option>
+                        </select>
+                    </div>
+                    <div class="form-item no-height">
+                        <select id="team-select" name="team_number" class="form-select" hidden>
                         </select>
                     </div>
                     <div class="form-item">
-                        <button type="submit" class="form-button">Записаться</button>
+                        <button type="submit" class="form-button" disabled>Записаться</button>
                     </div>
                 {% else %}
                     <div class="sign-in-footer">
@@ -57,10 +59,64 @@
             return await response.json();
         }
 
+        let projectsSelect = document.querySelector('#project-select');
+        let teamSelect = document.querySelector('#team-select');
+        let submitButton = document.querySelector('.form-button');
 
-        document.addEventListener('DOMContentLoaded', function() {
-            let projectsSelect = document.querySelector('#project-select');
 
+        document.addEventListener('DOMContentLoaded', async function() {
+            const projects = await fetch('/projects/api/available')
+                .then(resp => resp.json());
+
+            projectsSelect.innerHTML = projects.data.map(proj => `
+                <option value="${proj._id['$oid']}">${proj.name}</option>
+            `).join('');
+        });
+
+        projectsSelect.addEventListener('change', async function (event) {
+            const selectedId = this.value;
+            const project = await fetch(`/projects/api/${selectedId}`)
+                .then(resp => resp.json());
+
+            let html = '';
+
+            project.data.teams.forEach((team, i) => {
+               html += `<option value="${i}" ${team.is_full ? 'disabled' : ''}>Команда ${i+1} (${team.empty_slots} мест)</option>`;
+            });
+
+            teamSelect.innerHTML = html;
+            teamSelect.hidden = false;
+            teamSelect.closest('.no-height').classList.remove('no-height');
+        });
+
+        teamSelect.addEventListener('change', function (event) {
+            submitButton.disabled = false;
+        });
+
+        submitButton.addEventListener('click', async function (event) {
+            event.preventDefault();
+            this.disabled = true;
+
+            let projectId = projectsSelect.value;
+            let teamNumber = teamSelect.value;
+
+            let response = await postData(`/projects/api/${projectId}/join`, {team_number: teamNumber});
+
+            let msgBlock = document.createElement('div');
+            this.closest('form').append(msgBlock);
+
+            msgBlock.classList.add('form-item');
+            msgBlock.textContent = response.message;
+
+            if (response.status === 'success') {
+                msgBlock.style.color = '#B111EA';
+                msgBlock.style.fontWeight = 'bold';
+                msgBlock.textContent += `<a href="/projects/table/">Сводная таблица проектных команд</a>`;
+            } else {
+                msgBlock.style.color = 'red';
+            }
+            submitButton.disabled = true;
+            submitButton.classList.add('no-height');
         });
     </script>
 </body>

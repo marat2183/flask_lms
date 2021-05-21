@@ -1,6 +1,6 @@
 from flask import render_template, request, jsonify, current_app
 from flask_oauthlib.client import OAuthException
-from . import main
+from . import bp
 
 
 @main.app_errorhandler(403)
