@@ -74,4 +74,4 @@ def join_project(id: str, team_number: str):
 @login_required
 def get_table():
     data = get_project_table()
-    return render_template('projects/project_table.html', data=data)
+    return render_template('projects/accordion.html', data=data)
