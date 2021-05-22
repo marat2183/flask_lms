@@ -19,7 +19,15 @@ import json
 @login_required
 def index():
     projects = Project.objects.filter(disabledForJoin=False).exclude('teams.members')
-    return render_template('projects/index.html', projects=projects, user=current_user)
+
+    already_joined_project = Project.objects.filter(teams__members__in=[current_user]).first()
+
+    return render_template(
+        'projects/index.html',
+         projects=projects,
+         user=current_user,
+         already_joined_project=already_joined_project
+    )
 
 
 @projects.route('/api/<id>/', methods=['GET'])
@@ -51,21 +59,23 @@ def check_project_availability():
 @required_json_arguments
 @login_required
 def join_project(id: str, team_number: str):
-    if len(Project.objects.filter(teams__members__in=[current_user])) >= 1:
-        return error('Вы уже записаны на проект')
+    already_joined = Project.objects.filter(teams__members__in=[current_user]).first()
+    if already_joined is not None:
+        return error(f'Вы уже записаны на проект "{already_joined.name}"!')
 
     if current_user.role != 'Студент':
         return error('На проект могут записаться только студенты!', status_code=409)
 
     try:
-        # TODO fixme, probably an incorrect insert query
-        rv = Project.objects.get(id=id).update(
+        project = Project.objects.get(id=id)
+        rv = project.update(
             **{f'push__teams__{team_number}__members': current_user}
         )
         if rv:
+            project.save()
             return success(f'Вы успешно записаны на проект', data={})
         else:
-            return error('Update failed due to an unknown database error', status_code=500)
+            return error('При записи произошла неизвестная ошибка!', status_code=500)
     except DoesNotExist:
         return error(f'No project with ID {id}', status_code=404)
 

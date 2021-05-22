@@ -151,7 +151,7 @@ class Project(db.Document):
     link = db.StringField(required=True)
     disabled = db.BooleanField(required=True, default=False)
     disabledForJoin = db.BooleanField(default=False)
-    teams = db.EmbeddedDocumentListField(ProjectTeam, max_length=3)
+    teams = db.EmbeddedDocumentListField(ProjectTeam, max_length=3, required=True)
 
 
     def get_id(self):

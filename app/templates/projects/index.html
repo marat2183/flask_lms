@@ -18,13 +18,20 @@
                 <h1 class="sign-in-header">Запись на проект</h1>
                 <a href="{{ url_for('main.index') }}" class="home-link">На главную</a>
             </div>
-            <form action="" class="sign-in-form">
+            {% if already_joined_project %}
                 <div class="form-item">
-                    <input type="text" placeholder="ФИО" class="form-input" disabled value="{{ user.fullname }}">
+                    <div class="form-message">
+                        Вы уже записаны на проект "<a href="/projects/table">{{ already_joined_project.name }}</a>"!
+                    </div>
                 </div>
-                <div class="form-item">
-                    <input type="email" placeholder="Электронная почта" class="form-input" disabled value={{ user.email }}>
-                </div>
+            {% else %}
+                <form class="sign-in-form">
+                    <div class="form-item">
+                        <input type="text" placeholder="ФИО" class="form-input" disabled value="{{ user.fullname }}">
+                    </div>
+                    <div class="form-item">
+                        <input type="email" placeholder="Электронная почта" class="form-input" disabled value={{ user.email }}>
+                    </div>
                 {% if projects %}
                     <div class="form-item">
                         <select id="project-select" class="form-select" size="1">
@@ -43,7 +50,9 @@
                         <h1 class="sign-in-header">Доступных для записи проектов нет!</h1>
                     </div>
                 {% endif %}
-            </form>
+                </form>
+            {% endif %}
+
         </div>
     </div>
     <script>
@@ -80,16 +89,19 @@
 
             let html = '';
 
-            project.data.teams.forEach((team, i) => {
+            let teams = project.data.teams;
+
+            teams.forEach((team, i) => {
                html += `<option value="${i}" ${team.is_full ? 'disabled' : ''}>Команда ${i+1} (${team.empty_slots} мест)</option>`;
             });
 
+            for (let teamNum = teams.length; teamNum < 3; teamNum++) {
+                html += `<option value="${teamNum}">Команда ${teamNum+1} (8 мест)</option>`;
+            }
+
             teamSelect.innerHTML = html;
             teamSelect.hidden = false;
-            teamSelect.closest('.no-height').classList.remove('no-height');
-        });
-
-        teamSelect.addEventListener('change', function (event) {
+            teamSelect.parentNode.classList.remove('no-height');
             submitButton.disabled = false;
         });
 
@@ -106,17 +118,23 @@
             this.closest('form').append(msgBlock);
 
             msgBlock.classList.add('form-item');
+            msgBlock.classList.add('form-message');
+            msgBlock.style.textAlign = 'center';
+
             msgBlock.textContent = response.message;
 
             if (response.status === 'success') {
                 msgBlock.style.color = '#B111EA';
                 msgBlock.style.fontWeight = 'bold';
-                msgBlock.textContent += `<a href="/projects/table/">Сводная таблица проектных команд</a>`;
+                msgBlock.innerHTML += '<br><a href="/projects/table">Сводная таблица проектных команд</a>';
             } else {
                 msgBlock.style.color = 'red';
             }
+
+            submitButton.style.border = 'none';
+            submitButton.style.padding = '0';
+            submitButton.parentNode.classList.add('no-height');
             submitButton.disabled = true;
-            submitButton.classList.add('no-height');
         });
     </script>
 </body>
