@@ -42,4 +42,6 @@ FROM base AS prod
 
 EXPOSE "${PORT}"
 
+RUN chmod a+x ./run.sh
+
 ENTRYPOINT [ "./run.sh" ]
