@@ -40,4 +40,6 @@ CMD [ "venv/bin/python", "-m", "debugpy", "--listen", "0.0.0.0:5678", "-m", "fla
 #########################
 FROM base AS prod
 
+EXPOSE "${PORT}"
+
 ENTRYPOINT [ "./run.sh" ]
