@@ -1,28 +1,34 @@
 import os
 import redis
+from urllib.parse import urlparse
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 
 class Config(object):
     SECRET_KEY = os.environ.get('SECRET_KEY') or os.urandom(24)
+
     FLASK_ADMIN_SWATCH = 'pulse'
     FLASK_ADMIN_FLUID_LAYOUT = True
+
     MONGO_DB = os.environ.get('MONGO_DB')
     MONGO_USERNAME = os.environ.get('MONGO_USERNAME')
     MONGO_PASSWORD = os.environ.get('MONGO_PASSWORD')
     MONGO_HOST = os.environ.get('MONGO_HOST')
     MONGO_PORT = int(os.environ.get('MONGO_PORT')) or 27017
 
-    MONGO_URI = 'mongodb+srv://{}:{}@{}:{}/{}'.format(
-        MONGO_USERNAME,
-        MONGO_PASSWORD,
-        MONGO_HOST,
-        MONGO_PORT,
-        MONGO_DB
-    )
+    MONGO_URI = os.environ.get('MONGO_URI')
+
+    if MONGO_URI is not None:
+        uri = urlparse(MONGO_URI)
+        MONGO_HOST = uri.hostname
+        MONGO_PORT = int(uri.port)
+        MONGO_USERNAME = uri.username
+        MONGO_PASSWORD = uri.password
+
 
     MONGODB_SETTINGS = {
+        'uri': MONGO_URI,
         'db': MONGO_DB,
         'username': MONGO_USERNAME,
         'password': MONGO_PASSWORD,
@@ -30,17 +36,21 @@ class Config(object):
         'port': MONGO_PORT
     }
 
-    REDIS_HOST = os.environ.get('REDIS_HOST')
-    REDIS_PORT =  int(os.environ.get('REDIS_PORT')) or 6379
-    REDIS_USER = os.environ.get('REDIS_USER')
-    REDIS_PASSWORD = os.environ.get('REDIS_PASSWORD')
+    REDIS_URL = os.environ.get('REDIS_URL')
+    if REDIS_URL is not None:
+        SESION_REDIS = redis.from_url(REDIS_URL)
+    else:
+        REDIS_HOST = os.environ.get('REDIS_HOST')
+        REDIS_PORT =  int(os.environ.get('REDIS_PORT')) or 6379
+        REDIS_USER = os.environ.get('REDIS_USER')
+        REDIS_PASSWORD = os.environ.get('REDIS_PASSWORD')
 
-    SESSION_REDIS = redis.Redis(
-        REDIS_HOST,
-        REDIS_PORT,
-        username=REDIS_USER,
-        password=REDIS_PASSWORD
-    )
+        SESSION_REDIS = redis.Redis(
+            REDIS_HOST,
+            REDIS_PORT,
+            username=REDIS_USER,
+            password=REDIS_PASSWORD
+        )
 
     SESSION_TYPE = os.environ.get('SESSION_TYPE', 'filesystem')
     SESSION_PERMANENT = os.environ.get('SESSION_PERMANENT', False)
@@ -108,12 +118,25 @@ class DockerConfig(ProductionConfig):
         file_handler.setLevel(logging.INFO)
         app.logger.addHandler(file_handler)
 
+class HerokuConfig(ProductionConfig):
+    @classmethod
+    def init_app(cls, app):
+        ProductionConfig.init_app(app)
+        from werkzeug.contrib.fixers import ProxyFix
+        app.wsgi_app = ProxyFix(app.wsgi_app)
+
+        import logging
+        from logging import StreamHandler
+        file_handler = StreamHandler()
+        file_handler.setLevel(logging.WARNING)
+        app.logger.addHandler(file_handler)
 
 config = {
     'development': DevelopmentConfig,
     'testing': TestingConfig,
     'production': ProductionConfig,
     'docker': DockerConfig,
+    'heroku': HerokuConfig,
     'unix': UnixConfig,
     'default': DevelopmentConfig
 }
