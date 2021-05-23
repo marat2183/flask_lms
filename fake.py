@@ -49,7 +49,7 @@ def users(count=50):
 
 def fill_projects():
     for p in Project.objects():
-        team_count = randint(1, 3)
+        team_count = 3 - len(p.teams)
         for _ in range(team_count):
             team = p.teams.create()
             member_count = randint(1, 8)

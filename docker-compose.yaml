@@ -37,6 +37,7 @@ services:
     - "27017:27017"
     networks:
       - backend
+      - frontend
 
   webserver:
     build: docker/nginx
