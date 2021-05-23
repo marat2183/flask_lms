@@ -11,34 +11,21 @@ class Config(object):
     FLASK_ADMIN_SWATCH = 'pulse'
     FLASK_ADMIN_FLUID_LAYOUT = True
 
-    MONGO_DB = os.environ.get('MONGO_DB')
-    MONGO_USERNAME = os.environ.get('MONGO_USERNAME')
-    MONGO_PASSWORD = os.environ.get('MONGO_PASSWORD')
-    MONGO_HOST = os.environ.get('MONGO_HOST')
-    MONGO_PORT = int(os.environ.get('MONGO_PORT')) or 27017
+    MONGODB_DB = os.environ.get('MONGO_DB')
+    MONGODB_HOST = os.environ.get('MONGO_URI')
 
-    MONGO_URI = os.environ.get('MONGO_URI')
-
-    if MONGO_URI is not None:
-        uri = urlparse(MONGO_URI)
-        MONGO_HOST = uri.hostname
-        MONGO_PORT = int(uri.port)
-        MONGO_USERNAME = uri.username
-        MONGO_PASSWORD = uri.password
-
-
-    MONGODB_SETTINGS = {
-        'uri': MONGO_URI,
-        'db': MONGO_DB,
-        'username': MONGO_USERNAME,
-        'password': MONGO_PASSWORD,
-        'host': MONGO_HOST,
-        'port': MONGO_PORT
-    }
+    if MONGODB_HOST is None:
+        MONGODB_SETTINGS = {
+            'db': os.environ.get('MONGO_DB') or MONGODB_DB,
+            'host': os.environ.get('MONGO_HOST'),
+            'port': int(os.environ.get('MONGO_PORT')) if os.environ.get('MONGO_PORT') else 27017,
+            'username': os.environ.get('MONGO_USERNAME'),
+            'password': os.environ.get('MONGO_PASSWORD')
+        }
 
     REDIS_URL = os.environ.get('REDIS_URL')
     if REDIS_URL is not None:
-        SESION_REDIS = redis.from_url(REDIS_URL)
+        SESSION_REDIS = redis.from_url(REDIS_URL)
     else:
         REDIS_HOST = os.environ.get('REDIS_HOST')
         REDIS_PORT =  int(os.environ.get('REDIS_PORT')) or 6379
@@ -122,7 +109,7 @@ class HerokuConfig(ProductionConfig):
     @classmethod
     def init_app(cls, app):
         ProductionConfig.init_app(app)
-        from werkzeug.contrib.fixers import ProxyFix
+        from werkzeug.middleware.proxy_fix import ProxyFix
         app.wsgi_app = ProxyFix(app.wsgi_app)
 
         import logging

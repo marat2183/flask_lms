@@ -3,6 +3,4 @@ setup:
     - plan: heroku-redis
 build:
   docker:
-    web:
-      dockerfile: Dockerfile
-      target: prod
+    web: Dockerfile.prod
